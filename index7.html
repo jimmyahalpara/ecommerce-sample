@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZENITH | Minimalist Store</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Lora', 'serif'],
+                        sans: ['Work Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #fafafa; }
+        ::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 3px; }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .slider-track { scroll-snap-type: x mandatory; }
+        .slider-track > div { scroll-snap-align: start; }
+    </style>
+</head>
+<body class="bg-neutral-50 text-neutral-900 font-sans">
+
+    <!-- Minimal Nav -->
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-lg border-b border-neutral-200">
+        <div class="max-w-screen-2xl mx-auto px-8 py-5">
+            <div class="flex justify-between items-center">
+                <div class="font-serif text-2xl tracking-tight cursor-pointer" onclick="window.scrollTo(0,0)">
+                    Zenith
+                </div>
+                <div class="flex items-center space-x-8">
+                    <button id="open-search" class="text-neutral-600 hover:text-neutral-900 transition">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button id="open-wishlist" class="text-neutral-600 hover:text-neutral-900 transition relative">
+                        <i class="far fa-heart"></i>
+                        <span id="wishlist-indicator" class="hidden absolute -top-1 -right-1 w-2 h-2 bg-neutral-900 rounded-full"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Slider -->
+    <section class="mt-20 h-screen relative overflow-hidden bg-neutral-100">
+        <div id="main-slider" class="slider-track flex h-full overflow-x-auto no-scrollbar">
+            <div class="min-w-full h-full relative flex items-center justify-center">
+                <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600&q=80" class="absolute inset-0 w-full h-full object-cover opacity-90">
+                <div class="relative z-10 text-center text-white px-6">
+                    <h1 class="font-serif text-7xl md:text-8xl mb-6">Simplicity</h1>
+                    <p class="text-xl font-light mb-8">Where less becomes more</p>
+                    <button onclick="document.getElementById('collection').scrollIntoView({behavior:'smooth'})" class="border-2 border-white px-8 py-3 hover:bg-white hover:text-neutral-900 transition">
+                        Browse Collection
+                    </button>
+                </div>
+            </div>
+            <div class="min-w-full h-full relative flex items-center justify-center">
+                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1600&q=80" class="absolute inset-0 w-full h-full object-cover opacity-90">
+                <div class="relative z-10 text-center text-white px-6">
+                    <h1 class="font-serif text-7xl md:text-8xl mb-6">Elegance</h1>
+                    <p class="text-xl font-light mb-8">Timeless designs for modern living</p>
+                    <button onclick="document.getElementById('collection').scrollIntoView({behavior:'smooth'})" class="border-2 border-white px-8 py-3 hover:bg-white hover:text-neutral-900 transition">
+                        Discover More
+                    </button>
+                </div>
+            </div>
+            <div class="min-w-full h-full relative flex items-center justify-center">
+                <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1600&q=80" class="absolute inset-0 w-full h-full object-cover opacity-90">
+                <div class="relative z-10 text-center text-white px-6">
+                    <h1 class="font-serif text-7xl md:text-8xl mb-6">Quality</h1>
+                    <p class="text-xl font-light mb-8">Crafted with precision and care</p>
+                    <button onclick="document.getElementById('collection').scrollIntoView({behavior:'smooth'})" class="border-2 border-white px-8 py-3 hover:bg-white hover:text-neutral-900 transition">
+                        Shop Now
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 z-20">
+            <button class="slider-dot w-2 h-2 rounded-full bg-white/50 hover:bg-white transition" data-index="0"></button>
+            <button class="slider-dot w-2 h-2 rounded-full bg-white/50 hover:bg-white transition" data-index="1"></button>
+            <button class="slider-dot w-2 h-2 rounded-full bg-white/50 hover:bg-white transition" data-index="2"></button>
+        </div>
+    </section>
+
+    <!-- Collection -->
+    <section id="collection" class="max-w-screen-2xl mx-auto px-8 py-24">
+        <div class="text-center mb-16">
+            <h2 class="font-serif text-5xl mb-4">Our Collection</h2>
+            <p class="text-neutral-600">Curated pieces for conscious consumers</p>
+        </div>
+        <div id="products-container" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <!-- Products here -->
+        </div>
+    </section>
+
+    <!-- Search Modal -->
+    <div id="search-modal" class="fixed inset-0 z-[60] bg-white hidden">
+        <button id="close-search-modal" class="absolute top-8 right-8 text-neutral-600 hover:text-neutral-900">
+            <i class="fas fa-times text-xl"></i>
+        </button>
+        <div class="h-full flex flex-col items-center justify-center px-8">
+            <h3 class="font-serif text-4xl mb-8">Search</h3>
+            <input type="text" id="search-query" placeholder="What are you looking for?" class="w-full max-w-3xl text-3xl text-center border-b-2 border-neutral-300 focus:border-neutral-900 outline-none py-4 bg-transparent">
+            <div id="search-output" class="mt-16 w-full max-w-6xl grid grid-cols-1 md:grid-cols-4 gap-8"></div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div id="detail-modal" class="fixed inset-0 z-[70] hidden">
+        <div id="detail-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-8 overflow-y-auto">
+            <div class="bg-white rounded-lg max-w-6xl w-full my-6 relative shadow-2xl">
+                <button id="close-detail" class="absolute top-6 right-6 z-10 text-neutral-600 hover:text-neutral-900">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 p-12">
+                    <div>
+                        <div class="bg-neutral-100 rounded-lg overflow-hidden mb-4 aspect-square">
+                            <img id="detail-main-image" src="" class="w-full h-full object-cover">
+                        </div>
+                        <div id="detail-thumbnails" class="flex gap-3 overflow-x-auto no-scrollbar"></div>
+                    </div>
+                    <div class="flex flex-col justify-between">
+                        <div>
+                            <p id="detail-brand" class="text-sm text-neutral-500 uppercase tracking-wider mb-2"></p>
+                            <h3 id="detail-title" class="font-serif text-4xl mb-4"></h3>
+                            <p id="detail-price" class="text-3xl font-light mb-8"></p>
+                            <p id="detail-description" class="text-neutral-600 leading-relaxed mb-8"></p>
+                            <div class="mb-8">
+                                <p class="text-sm uppercase tracking-wider mb-4">Select Size</p>
+                                <div class="flex gap-3">
+                                    <button class="w-14 h-14 border border-neutral-300 hover:border-neutral-900 hover:bg-neutral-900 hover:text-white transition">XS</button>
+                                    <button class="w-14 h-14 border border-neutral-300 hover:border-neutral-900 hover:bg-neutral-900 hover:text-white transition">S</button>
+                                    <button class="w-14 h-14 border border-neutral-300 hover:border-neutral-900 hover:bg-neutral-900 hover:text-white transition">M</button>
+                                    <button class="w-14 h-14 border border-neutral-300 hover:border-neutral-900 hover:bg-neutral-900 hover:text-white transition">L</button>
+                                    <button class="w-14 h-14 border border-neutral-300 hover:border-neutral-900 hover:bg-neutral-900 hover:text-white transition">XL</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="detail-wishlist-button" class="w-full bg-neutral-900 text-white py-4 hover:bg-neutral-800 transition">
+                            <i class="far fa-heart mr-2"></i> Add to Wishlist
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Panel -->
+    <div id="wishlist-panel" class="fixed inset-0 z-[60] hidden">
+        <div id="wishlist-panel-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+        <div id="wishlist-content" class="absolute top-0 right-0 h-full w-full max-w-lg bg-white shadow-2xl transform translate-x-full transition-transform duration-300">
+            <div class="h-full flex flex-col">
+                <div class="p-8 border-b flex justify-between items-center">
+                    <h3 class="font-serif text-3xl">Wishlist</h3>
+                    <button id="close-wishlist-panel" class="text-neutral-600 hover:text-neutral-900">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <div id="wishlist-list" class="flex-1 overflow-y-auto p-8"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            const products = [
+                { id: 1, brand: "COS", title: "Organic Cotton Shirt", price: 85, images: ["https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&q=80", "https://images.unsplash.com/photo-1602810319250-1f0e033e4023?w=800&q=80", "https://images.unsplash.com/photo-1594938291221-94f18cbb5660?w=800&q=80"], desc: "Relaxed fit shirt made from 100% organic cotton with classic collar." },
+                { id: 2, brand: "ARKET", title: "Wool Blend Coat", price: 245, images: ["https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=800&q=80", "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800&q=80", "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80"], desc: "Double-breasted coat in premium wool blend with minimalist silhouette." },
+                { id: 3, brand: "EVERLANE", title: "Cashmere Sweater", price: 150, images: ["https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&q=80", "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&q=80", "https://images.unsplash.com/photo-1620799140408-ed5341cd2431?w=800&q=80"], desc: "Soft cashmere knit with crew neck and ribbed details." },
+                { id: 4, brand: "MUJI", title: "Canvas Tote Bag", price: 35, images: ["https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&q=80", "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&q=80", "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&q=80"], desc: "Durable canvas tote with leather handles and spacious interior." },
+                { id: 5, brand: "UNIQLO", title: "Slim Fit Chinos", price: 50, images: ["https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80", "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&q=80", "https://images.unsplash.com/photo-1542272454315-4c01d7abdf4a?w=800&q=80"], desc: "Versatile chinos with stretch fabric and clean lines." },
+                { id: 6, brand: "LEMAIRE", title: "Silk Scarf", price: 120, images: ["https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=800&q=80", "https://images.unsplash.com/photo-1583292650898-7d22cd27ca6f?w=800&q=80", "https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=800&q=80"], desc: "Pure silk scarf with subtle pattern and hand-rolled edges." },
+                { id: 7, brand: "MARGARET HOWELL", title: "Linen Dress", price: 195, images: ["https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=800&q=80", "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80", "https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?w=800&q=80"], desc: "Breathable linen dress with relaxed fit and natural drape." },
+                { id: 8, brand: "COMMON PROJECTS", title: "Leather Sneakers", price: 425, images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80", "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&q=80", "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&q=80"], desc: "Premium leather sneakers with clean design and gold stamp." },
+            ];
+
+            let wishlist = JSON.parse(localStorage.getItem('wishlist_zenith')) || [];
+            let detailImages = [];
+            let detailIndex = 0;
+
+            // Slider
+            let sliderIndex = 0;
+            const $slider = $('#main-slider');
+            const sliderWidth = $slider.width();
+            
+            $('.slider-dot').click(function() {
+                sliderIndex = $(this).data('index');
+                $slider.scrollLeft(sliderIndex * sliderWidth);
+                updateDots();
+            });
+
+            function updateDots() {
+                $('.slider-dot').removeClass('bg-white').addClass('bg-white/50');
+                $(`.slider-dot[data-index="${sliderIndex}"]`).removeClass('bg-white/50').addClass('bg-white');
+            }
+
+            setInterval(() => {
+                sliderIndex = (sliderIndex + 1) % 3;
+                $slider.scrollLeft(sliderIndex * sliderWidth);
+                updateDots();
+            }, 5000);
+
+            updateDots();
+
+            // Render Products
+            function renderProducts(data = products) {
+                $('#products-container').empty();
+                data.forEach(p => {
+                    const inWishlist = wishlist.includes(p.id);
+                    $('#products-container').append(`
+                        <div class="group cursor-pointer product-card" data-id="${p.id}">
+                            <div class="relative overflow-hidden bg-neutral-100 rounded-lg mb-4 aspect-square">
+                                <img src="${p.images[0]}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                                <button class="wishlist-heart absolute top-4 right-4 bg-white w-10 h-10 rounded-full shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition hover:scale-110" data-id="${p.id}">
+                                    <i class="${inWishlist ? 'fas text-neutral-900' : 'far'} fa-heart"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-neutral-500 uppercase tracking-wider mb-1">${p.brand}</p>
+                            <h4 class="font-medium mb-2">${p.title}</h4>
+                            <p class="text-neutral-900 font-light">$${p.price}</p>
+                        </div>
+                    `);
+                });
+            }
+            renderProducts();
+
+            // Product Detail
+            $(document).on('click', '.product-card', function(e) {
+                if($(e.target).closest('.wishlist-heart').length) return;
+                
+                const id = $(this).data('id');
+                const p = products.find(x => x.id === id);
+                
+                $('#detail-brand').text(p.brand);
+                $('#detail-title').text(p.title);
+                $('#detail-price').text(`$${p.price}`);
+                $('#detail-description').text(p.desc);
+                $('#detail-wishlist-button').data('id', id);
+                
+                const inWishlist = wishlist.includes(id);
+                $('#detail-wishlist-button').html(`<i class="${inWishlist ? 'fas' : 'far'} fa-heart mr-2"></i> ${inWishlist ? 'Remove from' : 'Add to'} Wishlist`);
+                
+                detailImages = p.images;
+                detailIndex = 0;
+                updateDetailImage();
+                
+                $('#detail-modal').removeClass('hidden');
+                $('body').addClass('overflow-hidden');
+            });
+
+            function updateDetailImage() {
+                $('#detail-main-image').attr('src', detailImages[detailIndex]);
+                $('#detail-thumbnails').empty();
+                detailImages.forEach((img, i) => {
+                    $('#detail-thumbnails').append(`
+                        <img src="${img}" class="w-24 h-24 object-cover rounded cursor-pointer ${i === detailIndex ? 'ring-2 ring-neutral-900' : 'opacity-50'} hover:opacity-100 transition detail-thumb" data-idx="${i}">
+                    `);
+                });
+            }
+
+            $(document).on('click', '.detail-thumb', function() {
+                detailIndex = $(this).data('idx');
+                updateDetailImage();
+            });
+
+            $('#close-detail, #detail-backdrop').click(() => {
+                $('#detail-modal').addClass('hidden');
+                $('body').removeClass('overflow-hidden');
+            });
+
+            // Wishlist
+            function updateWishlistUI() {
+                $('#wishlist-indicator').toggleClass('hidden', wishlist.length === 0);
+                $('#wishlist-list').empty();
+                
+                if(wishlist.length === 0) {
+                    $('#wishlist-list').html('<p class="text-neutral-500 text-center">Your wishlist is empty</p>');
+                    return;
+                }
+                
+                wishlist.forEach(id => {
+                    const p = products.find(x => x.id === id);
+                    if(p) {
+                        $('#wishlist-list').append(`
+                            <div class="flex gap-4 mb-6 pb-6 border-b">
+                                <img src="${p.images[0]}" class="w-24 h-24 object-cover rounded">
+                                <div class="flex-1">
+                                    <p class="text-xs text-neutral-500 uppercase">${p.brand}</p>
+                                    <p class="font-medium mb-1">${p.title}</p>
+                                    <p class="text-neutral-900">$${p.price}</p>
+                                </div>
+                                <button class="text-neutral-400 hover:text-red-500 transition wishlist-delete" data-id="${p.id}">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        `);
+                    }
+                });
+            }
+
+            $(document).on('click', '.wishlist-heart', function(e) {
+                e.stopPropagation();
+                const id = $(this).data('id');
+                const idx = wishlist.indexOf(id);
+                if(idx > -1) wishlist.splice(idx, 1);
+                else wishlist.push(id);
+                localStorage.setItem('wishlist_zenith', JSON.stringify(wishlist));
+                updateWishlistUI();
+                renderProducts();
+            });
+
+            $(document).on('click', '.wishlist-delete', function() {
+                const id = $(this).data('id');
+                wishlist = wishlist.filter(x => x !== id);
+                localStorage.setItem('wishlist_zenith', JSON.stringify(wishlist));
+                updateWishlistUI();
+                renderProducts();
+            });
+
+            $('#detail-wishlist-button').click(function() {
+                const id = $(this).data('id');
+                const idx = wishlist.indexOf(id);
+                if(idx > -1) wishlist.splice(idx, 1);
+                else wishlist.push(id);
+                localStorage.setItem('wishlist_zenith', JSON.stringify(wishlist));
+                updateWishlistUI();
+                renderProducts();
+                const inWishlist = wishlist.includes(id);
+                $(this).html(`<i class="${inWishlist ? 'fas' : 'far'} fa-heart mr-2"></i> ${inWishlist ? 'Remove from' : 'Add to'} Wishlist`);
+            });
+
+            $('#open-wishlist').click(() => {
+                $('#wishlist-panel').removeClass('hidden');
+                setTimeout(() => $('#wishlist-content').removeClass('translate-x-full'), 10);
+                $('body').addClass('overflow-hidden');
+            });
+
+            $('#close-wishlist-panel, #wishlist-panel-backdrop').click(() => {
+                $('#wishlist-content').addClass('translate-x-full');
+                setTimeout(() => {
+                    $('#wishlist-panel').addClass('hidden');
+                    $('body').removeClass('overflow-hidden');
+                }, 300);
+            });
+
+            // Search
+            $('#open-search').click(() => {
+                $('#search-modal').removeClass('hidden');
+                $('#search-query').focus();
+                $('body').addClass('overflow-hidden');
+            });
+
+            $('#close-search-modal').click(() => {
+                $('#search-modal').addClass('hidden');
+                $('#search-query').val('');
+                $('#search-output').empty();
+                $('body').removeClass('overflow-hidden');
+            });
+
+            $('#search-query').on('input', function() {
+                const query = $(this).val().toLowerCase();
+                $('#search-output').empty();
+                
+                if(query.length < 2) return;
+                
+                const filtered = products.filter(p => 
+                    p.title.toLowerCase().includes(query) || 
+                    p.brand.toLowerCase().includes(query)
+                );
+                
+                filtered.forEach(p => {
+                    $('#search-output').append(`
+                        <div class="cursor-pointer product-card" data-id="${p.id}">
+                            <img src="${p.images[0]}" class="w-full h-56 object-cover rounded-lg mb-3">
+                            <p class="text-xs text-neutral-500 uppercase">${p.brand}</p>
+                            <p class="font-medium">${p.title}</p>
+                            <p class="text-neutral-900">$${p.price}</p>
+                        </div>
+                    `);
+                });
+                
+                if(filtered.length === 0) {
+                    $('#search-output').html('<p class="text-neutral-500 text-center col-span-4">No products found</p>');
+                }
+            });
+
+            updateWishlistUI();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VELVET | Luxury Fashion</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        velvet: {
+                            50: '#faf5f7',
+                            100: '#f4ebef',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f3f4f6; }
+        ::-webkit-scrollbar-thumb { background: #8b5cf6; border-radius: 4px; }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .hero-slide {
+            transition: opacity 1s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-3xl font-serif font-bold tracking-wide cursor-pointer" onclick="window.scrollTo(0,0)">
+                    VELVET
+                </div>
+                <div class="flex items-center space-x-6">
+                    <button id="search-btn" class="text-gray-600 hover:text-velvet-600 transition">
+                        <i class="fas fa-search text-lg"></i>
+                    </button>
+                    <button id="wishlist-btn" class="text-gray-600 hover:text-velvet-600 transition relative">
+                        <i class="far fa-heart text-lg"></i>
+                        <span id="wishlist-badge" class="hidden absolute -top-2 -right-2 bg-velvet-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Slider -->
+    <section class="relative h-[600px] mt-16 overflow-hidden">
+        <div id="hero-container" class="relative w-full h-full">
+            <div class="hero-slide absolute inset-0 opacity-100">
+                <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1600&q=80" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center">
+                    <div class="max-w-7xl mx-auto px-6 text-white">
+                        <h2 class="text-6xl font-serif font-bold mb-4">Timeless Elegance</h2>
+                        <p class="text-xl mb-8 font-light">Discover the new collection</p>
+                        <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})" class="bg-white text-gray-900 px-8 py-3 font-medium hover:bg-velvet-600 hover:text-white transition">
+                            Shop Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide absolute inset-0 opacity-0">
+                <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600&q=80" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center">
+                    <div class="max-w-7xl mx-auto px-6 text-white">
+                        <h2 class="text-6xl font-serif font-bold mb-4">Spring Collection</h2>
+                        <p class="text-xl mb-8 font-light">Embrace the season</p>
+                        <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})" class="bg-white text-gray-900 px-8 py-3 font-medium hover:bg-velvet-600 hover:text-white transition">
+                            Explore
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide absolute inset-0 opacity-0">
+                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1600&q=80" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center">
+                    <div class="max-w-7xl mx-auto px-6 text-white">
+                        <h2 class="text-6xl font-serif font-bold mb-4">Luxury Redefined</h2>
+                        <p class="text-xl mb-8 font-light">Premium quality fabrics</p>
+                        <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})" class="bg-white text-gray-900 px-8 py-3 font-medium hover:bg-velvet-600 hover:text-white transition">
+                            Discover
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="prev-hero" class="absolute left-6 top-1/2 -translate-y-1/2 bg-white/80 p-3 rounded-full hover:bg-white transition">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button id="next-hero" class="absolute right-6 top-1/2 -translate-y-1/2 bg-white/80 p-3 rounded-full hover:bg-white transition">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="max-w-7xl mx-auto px-6 py-20">
+        <div class="text-center mb-12">
+            <h3 class="text-4xl font-serif font-bold mb-4">Featured Collection</h3>
+            <p class="text-gray-600">Handpicked items for the discerning customer</p>
+        </div>
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <!-- Products injected here -->
+        </div>
+    </section>
+
+    <!-- Search Overlay -->
+    <div id="search-overlay" class="fixed inset-0 z-[60] bg-white/98 backdrop-blur-lg hidden">
+        <button id="close-search" class="absolute top-8 right-8 text-gray-500 hover:text-gray-900">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+        <div class="h-full flex flex-col items-center justify-center px-6">
+            <h3 class="text-3xl font-serif mb-8">Search Products</h3>
+            <input type="text" id="search-input" placeholder="Search..." class="w-full max-w-2xl text-4xl text-center border-b-2 border-gray-300 focus:border-velvet-600 outline-none py-4">
+            <div id="search-results" class="mt-12 w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Search results here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="fixed inset-0 z-[70] hidden">
+        <div id="modal-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-6 overflow-y-auto">
+            <div id="modal-content" class="bg-white rounded-lg max-w-5xl w-full my-6 relative">
+                <button id="close-modal" class="absolute top-6 right-6 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
+                    <!-- Image Gallery -->
+                    <div>
+                        <div class="mb-4 bg-gray-100 rounded-lg overflow-hidden aspect-square">
+                            <img id="modal-main-img" src="" class="w-full h-full object-cover">
+                        </div>
+                        <div id="modal-thumbs" class="flex gap-2 overflow-x-auto no-scrollbar">
+                            <!-- Thumbnails here -->
+                        </div>
+                    </div>
+                    <!-- Product Info -->
+                    <div class="flex flex-col">
+                        <span id="modal-brand" class="text-sm text-gray-500 uppercase tracking-wide"></span>
+                        <h3 id="modal-title" class="text-3xl font-serif font-bold mt-2 mb-4"></h3>
+                        <p id="modal-price" class="text-2xl font-semibold text-velvet-600 mb-6"></p>
+                        <p id="modal-desc" class="text-gray-600 mb-8 leading-relaxed"></p>
+                        <div class="mb-6">
+                            <span class="block text-sm font-medium mb-3">Available Sizes</span>
+                            <div class="flex gap-3">
+                                <div class="w-12 h-12 border-2 border-gray-300 rounded flex items-center justify-center hover:border-velvet-600 cursor-pointer">XS</div>
+                                <div class="w-12 h-12 border-2 border-gray-300 rounded flex items-center justify-center hover:border-velvet-600 cursor-pointer">S</div>
+                                <div class="w-12 h-12 border-2 border-gray-300 rounded flex items-center justify-center hover:border-velvet-600 cursor-pointer">M</div>
+                                <div class="w-12 h-12 border-2 border-gray-300 rounded flex items-center justify-center hover:border-velvet-600 cursor-pointer">L</div>
+                                <div class="w-12 h-12 border-2 border-gray-300 rounded flex items-center justify-center hover:border-velvet-600 cursor-pointer">XL</div>
+                            </div>
+                        </div>
+                        <button id="modal-wishlist-btn" class="w-full bg-velvet-600 text-white py-4 rounded hover:bg-velvet-700 transition font-medium">
+                            <i class="far fa-heart mr-2"></i> Add to Wishlist
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Sidebar -->
+    <div id="wishlist-sidebar" class="fixed inset-0 z-[60] hidden">
+        <div id="wishlist-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+        <div id="wishlist-panel" class="absolute top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl transform translate-x-full transition-transform duration-300">
+            <div class="h-full flex flex-col">
+                <div class="p-6 border-b flex justify-between items-center">
+                    <h3 class="text-2xl font-serif font-bold">Wishlist</h3>
+                    <button id="close-wishlist" class="text-gray-500 hover:text-gray-900">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <div id="wishlist-items" class="flex-1 overflow-y-auto p-6">
+                    <!-- Wishlist items here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            const products = [
+                { id: 1, brand: "Valentino", title: "Silk Evening Dress", price: 1299, images: ["https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80", "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=800&q=80", "https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?w=800&q=80"], desc: "Luxurious silk evening dress with elegant draping and timeless silhouette." },
+                { id: 2, brand: "Armani", title: "Tailored Blazer", price: 899, images: ["https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80", "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80", "https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=800&q=80"], desc: "Impeccably tailored blazer in Italian wool with modern slim fit." },
+                { id: 3, brand: "Gucci", title: "Leather Handbag", price: 2100, images: ["https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&q=80", "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&q=80", "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&q=80"], desc: "Premium leather handbag with signature hardware and refined craftsmanship." },
+                { id: 4, brand: "Prada", title: "Designer Sunglasses", price: 350, images: ["https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&q=80", "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=800&q=80", "https://images.unsplash.com/photo-1509695507497-903c140c43b0?w=800&q=80"], desc: "Iconic sunglasses with UV protection and distinctive Italian design." },
+                { id: 5, brand: "Chanel", title: "Classic Pumps", price: 750, images: ["https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=800&q=80", "https://images.unsplash.com/photo-1535043934128-cf0b28d52f95?w=800&q=80", "https://images.unsplash.com/photo-1533973860717-d49dfd14cf64?w=800&q=80"], desc: "Timeless pumps in patent leather with signature cap toe detail." },
+                { id: 6, brand: "Burberry", title: "Cashmere Scarf", price: 490, images: ["https://images.unsplash.com/photo-1601924994987-69e26d50dc26?w=800&q=80", "https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=800&q=80", "https://images.unsplash.com/photo-1583292650898-7d22cd27ca6f?w=800&q=80"], desc: "Luxurious cashmere scarf with iconic check pattern." },
+                { id: 7, brand: "Hermès", title: "Silk Blouse", price: 1150, images: ["https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=800&q=80", "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=800&q=80", "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=800&q=80"], desc: "Ethereal silk blouse with French craftsmanship and delicate details." },
+                { id: 8, brand: "Dior", title: "Couture Coat", price: 3200, images: ["https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=800&q=80", "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80", "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800&q=80"], desc: "Statement coat with architectural design and exquisite tailoring." },
+            ];
+
+            let wishlist = JSON.parse(localStorage.getItem('wishlist_velvet')) || [];
+            let currentModalImages = [];
+            let currentModalIndex = 0;
+
+            // Hero Slider
+            let heroIndex = 0;
+            const $slides = $('.hero-slide');
+            
+            function showSlide(n) {
+                $slides.removeClass('opacity-100').addClass('opacity-0');
+                $($slides[n]).removeClass('opacity-0').addClass('opacity-100');
+            }
+
+            $('#next-hero').click(() => { heroIndex = (heroIndex + 1) % $slides.length; showSlide(heroIndex); });
+            $('#prev-hero').click(() => { heroIndex = (heroIndex - 1 + $slides.length) % $slides.length; showSlide(heroIndex); });
+            setInterval(() => { heroIndex = (heroIndex + 1) % $slides.length; showSlide(heroIndex); }, 5000);
+
+            // Render Products
+            function renderProducts(data = products) {
+                $('#product-grid').empty();
+                data.forEach(p => {
+                    const saved = wishlist.includes(p.id);
+                    $('#product-grid').append(`
+                        <div class="group cursor-pointer product-item" data-id="${p.id}">
+                            <div class="relative overflow-hidden rounded-lg bg-gray-100 mb-4 aspect-square">
+                                <img src="${p.images[0]}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                <button class="wishlist-toggle absolute top-4 right-4 bg-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:bg-velvet-600 hover:text-white transition" data-id="${p.id}">
+                                    <i class="${saved ? 'fas' : 'far'} fa-heart ${saved ? 'text-velvet-600' : ''}"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">${p.brand}</p>
+                            <h4 class="font-medium mb-2">${p.title}</h4>
+                            <p class="text-velvet-600 font-semibold">$${p.price}</p>
+                        </div>
+                    `);
+                });
+            }
+            renderProducts();
+
+            // Product Modal
+            $(document).on('click', '.product-item', function(e) {
+                if($(e.target).closest('.wishlist-toggle').length) return;
+                
+                const id = $(this).data('id');
+                const p = products.find(x => x.id === id);
+                
+                $('#modal-brand').text(p.brand);
+                $('#modal-title').text(p.title);
+                $('#modal-price').text(`$${p.price}`);
+                $('#modal-desc').text(p.desc);
+                $('#modal-wishlist-btn').data('id', id);
+                
+                const saved = wishlist.includes(id);
+                $('#modal-wishlist-btn').html(`<i class="${saved ? 'fas' : 'far'} fa-heart mr-2"></i> ${saved ? 'Remove from' : 'Add to'} Wishlist`);
+                
+                currentModalImages = p.images;
+                currentModalIndex = 0;
+                updateModalImage();
+                
+                $('#product-modal').removeClass('hidden');
+                $('body').addClass('overflow-hidden');
+            });
+
+            function updateModalImage() {
+                $('#modal-main-img').attr('src', currentModalImages[currentModalIndex]);
+                $('#modal-thumbs').empty();
+                currentModalImages.forEach((img, i) => {
+                    $('#modal-thumbs').append(`
+                        <img src="${img}" class="w-20 h-20 object-cover rounded cursor-pointer border-2 ${i === currentModalIndex ? 'border-velvet-600' : 'border-gray-200'} hover:border-velvet-600 transition modal-thumb" data-index="${i}">
+                    `);
+                });
+            }
+
+            $(document).on('click', '.modal-thumb', function() {
+                currentModalIndex = $(this).data('index');
+                updateModalImage();
+            });
+
+            $('#close-modal, #modal-backdrop').click(() => {
+                $('#product-modal').addClass('hidden');
+                $('body').removeClass('overflow-hidden');
+            });
+
+            // Wishlist
+            function updateWishlist() {
+                $('#wishlist-badge').text(wishlist.length).toggleClass('hidden', wishlist.length === 0);
+                $('#wishlist-items').empty();
+                
+                if(wishlist.length === 0) {
+                    $('#wishlist-items').html('<p class="text-gray-500 text-center">Your wishlist is empty</p>');
+                    return;
+                }
+                
+                wishlist.forEach(id => {
+                    const p = products.find(x => x.id === id);
+                    if(p) {
+                        $('#wishlist-items').append(`
+                            <div class="flex gap-4 mb-4 pb-4 border-b">
+                                <img src="${p.images[0]}" class="w-20 h-20 object-cover rounded">
+                                <div class="flex-1">
+                                    <p class="text-xs text-gray-500">${p.brand}</p>
+                                    <p class="font-medium">${p.title}</p>
+                                    <p class="text-velvet-600 font-semibold">$${p.price}</p>
+                                </div>
+                                <button class="text-gray-400 hover:text-red-500 wishlist-remove" data-id="${p.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        `);
+                    }
+                });
+            }
+
+            $(document).on('click', '.wishlist-toggle', function(e) {
+                e.stopPropagation();
+                const id = $(this).data('id');
+                const idx = wishlist.indexOf(id);
+                if(idx > -1) wishlist.splice(idx, 1);
+                else wishlist.push(id);
+                localStorage.setItem('wishlist_velvet', JSON.stringify(wishlist));
+                updateWishlist();
+                renderProducts();
+            });
+
+            $(document).on('click', '.wishlist-remove', function() {
+                const id = $(this).data('id');
+                wishlist = wishlist.filter(x => x !== id);
+                localStorage.setItem('wishlist_velvet', JSON.stringify(wishlist));
+                updateWishlist();
+                renderProducts();
+            });
+
+            $('#modal-wishlist-btn').click(function() {
+                const id = $(this).data('id');
+                const idx = wishlist.indexOf(id);
+                if(idx > -1) wishlist.splice(idx, 1);
+                else wishlist.push(id);
+                localStorage.setItem('wishlist_velvet', JSON.stringify(wishlist));
+                updateWishlist();
+                renderProducts();
+                const saved = wishlist.includes(id);
+                $(this).html(`<i class="${saved ? 'fas' : 'far'} fa-heart mr-2"></i> ${saved ? 'Remove from' : 'Add to'} Wishlist`);
+            });
+
+            $('#wishlist-btn').click(() => {
+                $('#wishlist-sidebar').removeClass('hidden');
+                setTimeout(() => $('#wishlist-panel').removeClass('translate-x-full'), 10);
+                $('body').addClass('overflow-hidden');
+            });
+
+            $('#close-wishlist, #wishlist-backdrop').click(() => {
+                $('#wishlist-panel').addClass('translate-x-full');
+                setTimeout(() => {
+                    $('#wishlist-sidebar').addClass('hidden');
+                    $('body').removeClass('overflow-hidden');
+                }, 300);
+            });
+
+            // Search
+            $('#search-btn').click(() => {
+                $('#search-overlay').removeClass('hidden');
+                $('#search-input').focus();
+                $('body').addClass('overflow-hidden');
+            });
+
+            $('#close-search').click(() => {
+                $('#search-overlay').addClass('hidden');
+                $('#search-input').val('');
+                $('#search-results').empty();
+                $('body').removeClass('overflow-hidden');
+            });
+
+            $('#search-input').on('input', function() {
+                const query = $(this).val().toLowerCase();
+                $('#search-results').empty();
+                
+                if(query.length < 2) return;
+                
+                const filtered = products.filter(p => 
+                    p.title.toLowerCase().includes(query) || 
+                    p.brand.toLowerCase().includes(query)
+                );
+                
+                filtered.forEach(p => {
+                    $('#search-results').append(`
+                        <div class="cursor-pointer product-item" data-id="${p.id}">
+                            <img src="${p.images[0]}" class="w-full h-48 object-cover rounded-lg mb-2">
+                            <p class="text-xs text-gray-500">${p.brand}</p>
+                            <p class="font-medium">${p.title}</p>
+                            <p class="text-velvet-600">$${p.price}</p>
+                        </div>
+                    `);
+                });
+                
+                if(filtered.length === 0) {
+                    $('#search-results').html('<p class="text-gray-500 text-center col-span-3">No products found</p>');
+                }
+            });
+
+            updateWishlist();
+        });
+    </script>
+</body>
+</html>

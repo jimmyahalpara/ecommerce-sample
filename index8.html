@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RETRO | Vintage Vibes</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Righteous&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Righteous', 'cursive'],
+                        script: ['Pacifico', 'cursive'],
+                        sans: ['Quicksand', 'sans-serif'],
+                    },
+                    colors: {
+                        retro: {
+                            orange: '#ff6b35',
+                            pink: '#ff499e',
+                            yellow: '#ffd23f',
+                            blue: '#3772ff',
+                            green: '#00f5d4',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #fff5e1; }
+        ::-webkit-scrollbar-thumb { background: #ff6b35; border-radius: 6px; }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .retro-shadow { box-shadow: 8px 8px 0 rgba(0,0,0,0.2); }
+        .retro-border { border: 4px solid #333; }
+        
+        @keyframes slide-loop {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        .slide-loop { animation: slide-loop 30s linear infinite; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-yellow-50 via-pink-50 to-blue-50 text-neutral-900 font-sans">
+
+    <!-- Sticky Nav -->
+    <nav class="sticky top-0 z-50 bg-white retro-border border-t-0 shadow-lg">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="font-display text-4xl text-retro-orange cursor-pointer" onclick="window.scrollTo(0,0)">
+                    RETRO
+                </div>
+                <div class="flex items-center space-x-6">
+                    <button id="btn-search" class="bg-retro-blue text-white px-4 py-2 rounded-full font-bold hover:bg-retro-pink transition retro-shadow">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button id="btn-wishlist" class="bg-retro-green text-neutral-900 px-4 py-2 rounded-full font-bold hover:bg-retro-yellow transition retro-shadow relative">
+                        <i class="fas fa-heart"></i>
+                        <span id="badge-wishlist" class="hidden absolute -top-2 -right-2 bg-retro-orange text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Animated Hero Slider -->
+    <section class="relative h-[600px] overflow-hidden retro-border border-t-0">
+        <div id="hero-slides" class="absolute inset-0">
+            <div class="hero-panel absolute inset-0 opacity-100 transition-opacity duration-1000" style="background: linear-gradient(135deg, #ff6b35 0%, #ff499e 100%);">
+                <div class="h-full flex items-center justify-center text-white px-6">
+                    <div class="text-center">
+                        <h1 class="font-display text-7xl md:text-9xl mb-6 drop-shadow-lg">Groovy!</h1>
+                        <p class="text-2xl mb-8 font-medium">Step back into the golden age of fashion</p>
+                        <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})" class="bg-white text-retro-orange px-10 py-4 rounded-full font-bold text-xl hover:scale-110 transition retro-shadow">
+                            Shop Vintage
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-panel absolute inset-0 opacity-0 transition-opacity duration-1000" style="background: linear-gradient(135deg, #3772ff 0%, #00f5d4 100%);">
+                <div class="h-full flex items-center justify-center text-white px-6">
+                    <div class="text-center">
+                        <h1 class="font-display text-7xl md:text-9xl mb-6 drop-shadow-lg">Far Out!</h1>
+                        <p class="text-2xl mb-8 font-medium">Discover styles that never go out of fashion</p>
+                        <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})" class="bg-white text-retro-blue px-10 py-4 rounded-full font-bold text-xl hover:scale-110 transition retro-shadow">
+                            Explore Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-panel absolute inset-0 opacity-0 transition-opacity duration-1000" style="background: linear-gradient(135deg, #ffd23f 0%, #ff6b35 100%);">
+                <div class="h-full flex items-center justify-center text-white px-6">
+                    <div class="text-center">
+                        <h1 class="font-display text-7xl md:text-9xl mb-6 drop-shadow-lg">Radical!</h1>
+                        <p class="text-2xl mb-8 font-medium">Bold colors and bigger dreams</p>
+                        <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})" class="bg-white text-retro-yellow px-10 py-4 rounded-full font-bold text-xl hover:scale-110 transition retro-shadow">
+                            Get Started
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="hero-left" class="absolute left-6 top-1/2 -translate-y-1/2 bg-white text-retro-orange w-14 h-14 rounded-full font-bold hover:scale-110 transition retro-shadow z-10">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button id="hero-right" class="absolute right-6 top-1/2 -translate-y-1/2 bg-white text-retro-orange w-14 h-14 rounded-full font-bold hover:scale-110 transition retro-shadow z-10">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="max-w-7xl mx-auto px-6 py-20">
+        <div class="text-center mb-12">
+            <h2 class="font-display text-6xl text-retro-pink mb-4">Totally Tubular Collection</h2>
+            <p class="text-xl text-neutral-600">Handpicked vintage treasures just for you</p>
+        </div>
+        <div id="grid-products" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Products injected -->
+        </div>
+    </section>
+
+    <!-- Search Overlay -->
+    <div id="overlay-search" class="fixed inset-0 z-[60] hidden" style="background: linear-gradient(135deg, #ff6b35 0%, #3772ff 100%);">
+        <button id="btn-close-search" class="absolute top-8 right-8 bg-white text-retro-orange w-12 h-12 rounded-full font-bold hover:scale-110 transition retro-shadow">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="h-full flex flex-col items-center justify-center px-6">
+            <h3 class="font-display text-6xl text-white mb-8 drop-shadow-lg">Find Your Vibe</h3>
+            <input type="text" id="input-search" placeholder="Search products..." class="w-full max-w-3xl text-3xl text-center bg-white rounded-full px-8 py-6 outline-none retro-border retro-shadow">
+            <div id="results-search" class="mt-16 w-full max-w-6xl grid grid-cols-1 md:grid-cols-4 gap-6"></div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div id="modal-detail" class="fixed inset-0 z-[70] hidden">
+        <div id="backdrop-detail" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-6 overflow-y-auto">
+            <div class="bg-white rounded-3xl max-w-5xl w-full my-6 retro-border retro-shadow">
+                <button id="btn-close-modal" class="absolute top-6 right-6 z-10 bg-retro-orange text-white w-12 h-12 rounded-full hover:scale-110 transition">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 p-8">
+                    <div>
+                        <div class="bg-neutral-100 rounded-2xl overflow-hidden mb-4 aspect-square retro-border">
+                            <img id="img-modal-main" src="" class="w-full h-full object-cover">
+                        </div>
+                        <div id="thumbs-modal" class="flex gap-3 overflow-x-auto no-scrollbar"></div>
+                    </div>
+                    <div class="flex flex-col justify-between">
+                        <div>
+                            <p id="brand-modal" class="text-sm text-retro-blue uppercase font-bold mb-2"></p>
+                            <h3 id="title-modal" class="font-display text-4xl mb-4"></h3>
+                            <p id="price-modal" class="text-4xl font-bold text-retro-pink mb-6"></p>
+                            <p id="desc-modal" class="text-neutral-600 leading-relaxed mb-8"></p>
+                            <div class="mb-8">
+                                <p class="font-bold mb-4">Pick Your Size</p>
+                                <div class="flex gap-3">
+                                    <button class="w-14 h-14 retro-border rounded-lg bg-white hover:bg-retro-yellow transition font-bold">XS</button>
+                                    <button class="w-14 h-14 retro-border rounded-lg bg-white hover:bg-retro-yellow transition font-bold">S</button>
+                                    <button class="w-14 h-14 retro-border rounded-lg bg-white hover:bg-retro-yellow transition font-bold">M</button>
+                                    <button class="w-14 h-14 retro-border rounded-lg bg-white hover:bg-retro-yellow transition font-bold">L</button>
+                                    <button class="w-14 h-14 retro-border rounded-lg bg-white hover:bg-retro-yellow transition font-bold">XL</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button id="btn-wishlist-modal" class="w-full bg-retro-green text-neutral-900 py-4 rounded-full font-bold hover:bg-retro-yellow transition retro-shadow text-lg">
+                            <i class="fas fa-heart mr-2"></i> Add to Wishlist
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Sidebar -->
+    <div id="sidebar-wishlist" class="fixed inset-0 z-[60] hidden">
+        <div id="backdrop-wishlist" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div id="panel-wishlist" class="absolute top-0 right-0 h-full w-full max-w-md bg-white retro-border border-r-0 transform translate-x-full transition-transform duration-300">
+            <div class="h-full flex flex-col">
+                <div class="p-6 border-b-4 border-neutral-900 flex justify-between items-center bg-retro-pink">
+                    <h3 class="font-display text-3xl text-white">My Favs</h3>
+                    <button id="btn-close-wishlist" class="bg-white text-retro-pink w-10 h-10 rounded-full hover:scale-110 transition">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="list-wishlist" class="flex-1 overflow-y-auto p-6"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            const products = [
+                { id: 1, brand: "VINTAGE FINDS", title: "70s Bell Bottom Jeans", price: 65, images: ["https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&q=80", "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80", "https://images.unsplash.com/photo-1542272454315-4c01d7abdf4a?w=800&q=80"], desc: "Authentic 70s bell bottom jeans with embroidered details." },
+                { id: 2, brand: "RETRO THREADS", title: "Disco Sequin Top", price: 55, images: ["https://images.unsplash.com/photo-1564257577315-7a634e0f6f7d?w=800&q=80", "https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=800&q=80", "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=800&q=80"], desc: "Sparkly sequin top perfect for your disco dance moves." },
+                { id: 3, brand: "THROWBACK CO", title: "Bomber Jacket", price: 95, images: ["https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&q=80", "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=800&q=80", "https://images.unsplash.com/photo-1516257984-b1b4d8c9230c?w=800&q=80"], desc: "Classic bomber jacket with vintage patches and badges." },
+                { id: 4, brand: "OLD SCHOOL", title: "High-top Sneakers", price: 75, images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80", "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&q=80", "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&q=80"], desc: "Retro high-top sneakers in vibrant colors." },
+                { id: 5, brand: "VINTAGE FINDS", title: "Tie-Dye T-shirt", price: 35, images: ["https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&q=80", "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80", "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&q=80"], desc: "Hand-dyed tie-dye tee with psychedelic patterns." },
+                { id: 6, brand: "RETRO THREADS", title: "Vinyl Record Bag", price: 45, images: ["https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&q=80", "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&q=80", "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&q=80"], desc: "Funky shoulder bag designed like a vinyl record." },
+                { id: 7, brand: "THROWBACK CO", title: "Sunglasses", price: 40, images: ["https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=800&q=80", "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=800&q=80", "https://images.unsplash.com/photo-1509695507497-903c140c43b0?w=800&q=80"], desc: "Round frame sunglasses with colorful lenses." },
+                { id: 8, brand: "OLD SCHOOL", title: "Bucket Hat", price: 30, images: ["https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=800&q=80", "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=800&q=80", "https://images.unsplash.com/photo-1575428652377-a269724075dc?w=800&q=80"], desc: "Colorful bucket hat with retro patterns." },
+            ];
+
+            let wishlist = JSON.parse(localStorage.getItem('wishlist_retro')) || [];
+            let detailImgs = [];
+            let detailIdx = 0;
+
+            // Hero Slider
+            let heroIdx = 0;
+            const $panels = $('.hero-panel');
+            
+            function showHeroPanel(n) {
+                $panels.removeClass('opacity-100').addClass('opacity-0');
+                $($panels[n]).removeClass('opacity-0').addClass('opacity-100');
+            }
+
+            $('#hero-right').click(() => { heroIdx = (heroIdx + 1) % 3; showHeroPanel(heroIdx); });
+            $('#hero-left').click(() => { heroIdx = (heroIdx - 1 + 3) % 3; showHeroPanel(heroIdx); });
+            setInterval(() => { heroIdx = (heroIdx + 1) % 3; showHeroPanel(heroIdx); }, 5000);
+
+            // Render Products
+            function renderProducts(data = products) {
+                $('#grid-products').empty();
+                data.forEach(p => {
+                    const inWish = wishlist.includes(p.id);
+                    const colors = ['bg-retro-orange', 'bg-retro-pink', 'bg-retro-yellow', 'bg-retro-blue', 'bg-retro-green'];
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    $('#grid-products').append(`
+                        <div class="group cursor-pointer item-product" data-id="${p.id}">
+                            <div class="relative overflow-hidden rounded-2xl retro-border retro-shadow mb-4 aspect-square ${randomColor} p-4">
+                                <img src="${p.images[0]}" class="w-full h-full object-cover rounded-xl group-hover:scale-110 transition duration-500">
+                                <button class="btn-heart-grid absolute top-6 right-6 bg-white w-12 h-12 rounded-full flex items-center justify-center hover:scale-110 transition" data-id="${p.id}">
+                                    <i class="${inWish ? 'fas text-retro-pink' : 'far'} fa-heart text-xl"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs font-bold text-retro-blue uppercase mb-1">${p.brand}</p>
+                            <h4 class="font-bold text-lg mb-2">${p.title}</h4>
+                            <p class="text-2xl font-bold text-retro-pink">$${p.price}</p>
+                        </div>
+                    `);
+                });
+            }
+            renderProducts();
+
+            // Product Detail Modal
+            $(document).on('click', '.item-product', function(e) {
+                if($(e.target).closest('.btn-heart-grid').length) return;
+                
+                const id = $(this).data('id');
+                const p = products.find(x => x.id === id);
+                
+                $('#brand-modal').text(p.brand);
+                $('#title-modal').text(p.title);
+                $('#price-modal').text(`$${p.price}`);
+                $('#desc-modal').text(p.desc);
+                $('#btn-wishlist-modal').data('id', id);
+                
+                const inWish = wishlist.includes(id);
+                $('#btn-wishlist-modal').html(`<i class="${inWish ? 'fas' : 'far'} fa-heart mr-2"></i> ${inWish ? 'Remove from' : 'Add to'} Wishlist`);
+                
+                detailImgs = p.images;
+                detailIdx = 0;
+                updateDetailImage();
+                
+                $('#modal-detail').removeClass('hidden');
+                $('body').addClass('overflow-hidden');
+            });
+
+            function updateDetailImage() {
+                $('#img-modal-main').attr('src', detailImgs[detailIdx]);
+                $('#thumbs-modal').empty();
+                detailImgs.forEach((img, i) => {
+                    $('#thumbs-modal').append(`
+                        <img src="${img}" class="w-24 h-24 object-cover rounded-lg cursor-pointer retro-border ${i === detailIdx ? 'ring-4 ring-retro-pink' : ''} hover:scale-110 transition thumb-detail" data-idx="${i}">
+                    `);
+                });
+            }
+
+            $(document).on('click', '.thumb-detail', function() {
+                detailIdx = $(this).data('idx');
+                updateDetailImage();
+            });
+
+            $('#btn-close-modal, #backdrop-detail').click(() => {
+                $('#modal-detail').addClass('hidden');
+                $('body').removeClass('overflow-hidden');
+            });
+
+            // Wishlist
+            function updateWishlistUI() {
+                $('#badge-wishlist').text(wishlist.length).toggleClass('hidden', wishlist.length === 0);
+                $('#list-wishlist').empty();
+                
+                if(wishlist.length === 0) {
+                    $('#list-wishlist').html('<p class="text-neutral-500 text-center mt-10">No favorites yet!</p>');
+                    return;
+                }
+                
+                wishlist.forEach(id => {
+                    const p = products.find(x => x.id === id);
+                    if(p) {
+                        $('#list-wishlist').append(`
+                            <div class="flex gap-4 mb-4 pb-4 border-b-2 border-neutral-200">
+                                <img src="${p.images[0]}" class="w-24 h-24 object-cover rounded-lg retro-border">
+                                <div class="flex-1">
+                                    <p class="text-xs text-retro-blue font-bold uppercase">${p.brand}</p>
+                                    <p class="font-bold mb-1">${p.title}</p>
+                                    <p class="text-retro-pink font-bold text-lg">$${p.price}</p>
+                                </div>
+                                <button class="text-neutral-400 hover:text-red-500 transition btn-remove-wish" data-id="${p.id}">
+                                    <i class="fas fa-trash text-xl"></i>
+                                </button>
+                            </div>
+                        `);
+                    }
+                });
+            }
+
+            $(document).on('click', '.btn-heart-grid', function(e) {
+                e.stopPropagation();
+                const id = $(this).data('id');
+                const idx = wishlist.indexOf(id);
+                if(idx > -1) wishlist.splice(idx, 1);
+                else wishlist.push(id);
+                localStorage.setItem('wishlist_retro', JSON.stringify(wishlist));
+                updateWishlistUI();
+                renderProducts();
+            });
+
+            $(document).on('click', '.btn-remove-wish', function() {
+                const id = $(this).data('id');
+                wishlist = wishlist.filter(x => x !== id);
+                localStorage.setItem('wishlist_retro', JSON.stringify(wishlist));
+                updateWishlistUI();
+                renderProducts();
+            });
+
+            $('#btn-wishlist-modal').click(function() {
+                const id = $(this).data('id');
+                const idx = wishlist.indexOf(id);
+                if(idx > -1) wishlist.splice(idx, 1);
+                else wishlist.push(id);
+                localStorage.setItem('wishlist_retro', JSON.stringify(wishlist));
+                updateWishlistUI();
+                renderProducts();
+                const inWish = wishlist.includes(id);
+                $(this).html(`<i class="${inWish ? 'fas' : 'far'} fa-heart mr-2"></i> ${inWish ? 'Remove from' : 'Add to'} Wishlist`);
+            });
+
+            $('#btn-wishlist').click(() => {
+                $('#sidebar-wishlist').removeClass('hidden');
+                setTimeout(() => $('#panel-wishlist').removeClass('translate-x-full'), 10);
+                $('body').addClass('overflow-hidden');
+            });
+
+            $('#btn-close-wishlist, #backdrop-wishlist').click(() => {
+                $('#panel-wishlist').addClass('translate-x-full');
+                setTimeout(() => {
+                    $('#sidebar-wishlist').addClass('hidden');
+                    $('body').removeClass('overflow-hidden');
+                }, 300);
+            });
+
+            // Search
+            $('#btn-search').click(() => {
+                $('#overlay-search').removeClass('hidden');
+                $('#input-search').focus();
+                $('body').addClass('overflow-hidden');
+            });
+
+            $('#btn-close-search').click(() => {
+                $('#overlay-search').addClass('hidden');
+                $('#input-search').val('');
+                $('#results-search').empty();
+                $('body').removeClass('overflow-hidden');
+            });
+
+            $('#input-search').on('input', function() {
+                const query = $(this).val().toLowerCase();
+                $('#results-search').empty();
+                
+                if(query.length < 2) return;
+                
+                const filtered = products.filter(p => 
+                    p.title.toLowerCase().includes(query) || 
+                    p.brand.toLowerCase().includes(query)
+                );
+                
+                filtered.forEach(p => {
+                    $('#results-search').append(`
+                        <div class="cursor-pointer item-product bg-white rounded-2xl retro-border p-4" data-id="${p.id}">
+                            <img src="${p.images[0]}" class="w-full h-48 object-cover rounded-xl mb-3">
+                            <p class="text-xs text-retro-blue font-bold uppercase">${p.brand}</p>
+                            <p class="font-bold">${p.title}</p>
+                            <p class="text-retro-pink font-bold text-lg">$${p.price}</p>
+                        </div>
+                    `);
+                });
+                
+                if(filtered.length === 0) {
+                    $('#results-search').html('<p class="text-white text-center col-span-4 text-2xl">No matches found!</p>');
+                }
+            });
+
+            updateWishlistUI();
+        });
+    </script>
+</body>
+</html>

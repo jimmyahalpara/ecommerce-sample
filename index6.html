@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON | Street Style</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Bebas Neue', 'cursive'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        neon: {
+                            cyan: '#00fff9',
+                            pink: '#ff00ff',
+                            yellow: '#ffff00',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 10px; background: #000; }
+        ::-webkit-scrollbar-thumb { background: #00fff9; }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .glow-cyan { box-shadow: 0 0 20px #00fff9; }
+        .glow-pink { box-shadow: 0 0 20px #ff00ff; }
+        
+        .text-glow { text-shadow: 0 0 20px currentColor; }
+
+        .hero-carousel { scroll-snap-type: x mandatory; }
+        .hero-carousel > div { scroll-snap-align: start; }
+    </style>
+</head>
+<body class="bg-black text-white font-sans">
+
+    <!-- Nav -->
+    <nav class="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b-2 border-neon-cyan">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="font-display text-4xl tracking-wider text-neon-cyan text-glow cursor-pointer" onclick="window.scrollTo(0,0)">
+                    NEON
+                </div>
+                <div class="flex items-center space-x-6">
+                    <button id="search-toggle" class="text-neon-cyan hover:text-neon-pink transition">
+                        <i class="fas fa-search text-xl"></i>
+                    </button>
+                    <button id="wishlist-toggle" class="relative text-neon-cyan hover:text-neon-pink transition">
+                        <i class="far fa-heart text-xl"></i>
+                        <span id="wish-count" class="hidden absolute -top-2 -right-2 bg-neon-pink text-black text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Carousel -->
+    <section class="mt-20 h-[600px] relative overflow-hidden">
+        <div id="hero-carousel" class="hero-carousel flex h-full overflow-x-auto no-scrollbar">
+            <div class="min-w-full relative">
+                <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=1600&q=80" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent flex items-end">
+                    <div class="p-12">
+                        <h2 class="font-display text-7xl text-neon-cyan mb-4 text-glow">URBAN VIBES</h2>
+                        <p class="text-xl mb-6">Street culture meets high fashion</p>
+                        <button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})" class="bg-neon-cyan text-black px-8 py-3 font-bold hover:bg-neon-pink hover:glow-pink transition">
+                            SHOP NOW
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="min-w-full relative">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1600&q=80" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent flex items-end">
+                    <div class="p-12">
+                        <h2 class="font-display text-7xl text-neon-pink mb-4 text-glow">FRESH DROPS</h2>
+                        <p class="text-xl mb-6">Limited edition collections</p>
+                        <button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})" class="bg-neon-pink text-black px-8 py-3 font-bold hover:bg-neon-cyan hover:glow-cyan transition">
+                            EXPLORE
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="min-w-full relative">
+                <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=1600&q=80" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent flex items-end">
+                    <div class="p-12">
+                        <h2 class="font-display text-7xl text-neon-yellow mb-4 text-glow">BE BOLD</h2>
+                        <p class="text-xl mb-6">Express yourself fearlessly</p>
+                        <button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})" class="bg-neon-yellow text-black px-8 py-3 font-bold hover:glow-pink transition">
+                            DISCOVER
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="carousel-prev" class="absolute left-4 top-1/2 -translate-y-1/2 bg-neon-cyan text-black w-12 h-12 rounded-full font-bold hover:bg-neon-pink transition">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button id="carousel-next" class="absolute right-4 top-1/2 -translate-y-1/2 bg-neon-cyan text-black w-12 h-12 rounded-full font-bold hover:bg-neon-pink transition">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </section>
+
+    <!-- Products -->
+    <section id="shop" class="max-w-7xl mx-auto px-6 py-20">
+        <h3 class="font-display text-6xl text-center mb-4 text-neon-cyan text-glow">LATEST DROPS</h3>
+        <p class="text-center text-gray-400 mb-12">Fresh styles for the streets</p>
+        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Products here -->
+        </div>
+    </section>
+
+    <!-- Search Modal -->
+    <div id="search-modal" class="fixed inset-0 z-[60] bg-black/95 backdrop-blur-lg hidden">
+        <button id="close-search" class="absolute top-8 right-8 text-neon-cyan text-2xl hover:text-neon-pink transition">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="h-full flex flex-col items-center justify-center px-6">
+            <h3 class="font-display text-5xl text-neon-cyan mb-8">SEARCH</h3>
+            <input type="text" id="search-field" placeholder="Type to search..." class="bg-transparent border-b-2 border-neon-cyan text-white text-2xl text-center w-full max-w-2xl py-4 outline-none focus:border-neon-pink transition">
+            <div id="search-grid" class="mt-12 w-full max-w-6xl grid grid-cols-1 md:grid-cols-4 gap-6"></div>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="fixed inset-0 z-[70] hidden">
+        <div id="pm-backdrop" class="absolute inset-0 bg-black/90 backdrop-blur-sm"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-6 overflow-y-auto">
+            <div class="bg-zinc-900 border-2 border-neon-cyan max-w-5xl w-full my-6 rounded-lg glow-cyan">
+                <button id="pm-close" class="absolute top-4 right-4 z-10 bg-black text-neon-cyan w-10 h-10 rounded-full hover:text-neon-pink transition">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                    <div class="p-6">
+                        <div class="bg-black rounded-lg overflow-hidden mb-4 aspect-square">
+                            <img id="pm-main-img" src="" class="w-full h-full object-cover">
+                        </div>
+                        <div id="pm-thumbs" class="flex gap-2 overflow-x-auto no-scrollbar"></div>
+                    </div>
+                    <div class="p-6 flex flex-col justify-between">
+                        <div>
+                            <p id="pm-brand" class="text-neon-cyan text-sm mb-2"></p>
+                            <h3 id="pm-title" class="font-display text-4xl mb-4"></h3>
+                            <p id="pm-price" class="text-3xl text-neon-pink font-bold mb-6"></p>
+                            <p id="pm-desc" class="text-gray-400 mb-8"></p>
+                        </div>
+                        <button id="pm-wishlist" class="w-full bg-neon-cyan text-black py-4 font-bold hover:bg-neon-pink transition">
+                            <i class="far fa-heart mr-2"></i> ADD TO WISHLIST
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Sidebar -->
+    <div id="wishlist-sidebar" class="fixed inset-0 z-[60] hidden">
+        <div id="ws-backdrop" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+        <div id="ws-panel" class="absolute top-0 right-0 h-full w-full max-w-md bg-zinc-900 border-l-2 border-neon-pink transform translate-x-full transition-transform duration-300">
+            <div class="h-full flex flex-col">
+                <div class="p-6 border-b-2 border-neon-pink flex justify-between items-center">
+                    <h3 class="font-display text-3xl text-neon-pink">WISHLIST</h3>
+                    <button id="ws-close" class="text-neon-pink hover:text-neon-cyan transition text-xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="ws-items" class="flex-1 overflow-y-auto p-6"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            const products = [
+                { id: 1, brand: "NIKE", title: "Air Force Neon", price: 120, images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80", "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&q=80", "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800&q=80"], desc: "Classic sneakers with neon accents for street style." },
+                { id: 2, brand: "SUPREME", title: "Box Logo Hoodie", price: 180, images: ["https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800&q=80", "https://images.unsplash.com/photo-1620799140408-ed5341cd2431?w=800&q=80", "https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?w=800&q=80"], desc: "Iconic hoodie with premium cotton fleece construction." },
+                { id: 3, brand: "ADIDAS", title: "Tracksuit Set", price: 150, images: ["https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80", "https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=800&q=80", "https://images.unsplash.com/photo-1602810319250-1f0e033e4023?w=800&q=80"], desc: "Complete tracksuit with signature three stripes." },
+                { id: 4, brand: "PALACE", title: "Skate Deck", price: 80, images: ["https://images.unsplash.com/photo-1547447134-cd3f5c716030?w=800&q=80", "https://images.unsplash.com/photo-1621544402532-9cf63dc0725b?w=800&q=80", "https://images.unsplash.com/photo-1619508847628-bb75e3c4c2d6?w=800&q=80"], desc: "Premium maple wood deck with bold graphics." },
+                { id: 5, brand: "VANS", title: "Old Skool Pro", price: 75, images: ["https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=800&q=80", "https://images.unsplash.com/photo-1543508282-6319a3e2621f?w=800&q=80", "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=800&q=80"], desc: "Durable canvas and suede upper with waffle outsole." },
+                { id: 6, brand: "CARHARTT", title: "Work Jacket", price: 140, images: ["https://images.unsplash.com/photo-1551028719-00167b16eac5?w=800&q=80", "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=800&q=80", "https://images.unsplash.com/photo-1516257984-b1b4d8c9230c?w=800&q=80"], desc: "Heavy-duty cotton canvas with utility pockets." },
+                { id: 7, brand: "STUSSY", title: "Graphic Tee", price: 45, images: ["https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&q=80", "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80", "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=800&q=80"], desc: "Soft cotton tee with bold screen-printed graphics." },
+                { id: 8, brand: "NEW ERA", title: "Snapback Cap", price: 35, images: ["https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=800&q=80", "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=800&q=80", "https://images.unsplash.com/photo-1575428652377-a269724075dc?w=800&q=80"], desc: "Adjustable snapback with embroidered logo." },
+            ];
+
+            let wishlist = JSON.parse(localStorage.getItem('wishlist_neon')) || [];
+            let modalImages = [];
+            let modalIndex = 0;
+
+            // Carousel
+            let carouselPos = 0;
+            const $carousel = $('#hero-carousel');
+            const slideWidth = $carousel.width();
+            
+            $('#carousel-next').click(() => {
+                carouselPos = (carouselPos + 1) % 3;
+                $carousel.scrollLeft(carouselPos * slideWidth);
+            });
+            
+            $('#carousel-prev').click(() => {
+                carouselPos = (carouselPos - 1 + 3) % 3;
+                $carousel.scrollLeft(carouselPos * slideWidth);
+            });
+            
+            setInterval(() => {
+                carouselPos = (carouselPos + 1) % 3;
+                $carousel.scrollLeft(carouselPos * slideWidth);
+            }, 5000);
+
+            // Render Products
+            function renderProducts(data = products) {
+                $('#products-grid').empty();
+                data.forEach(p => {
+                    const saved = wishlist.includes(p.id);
+                    $('#products-grid').append(`
+                        <div class="group cursor-pointer prod-item" data-id="${p.id}">
+                            <div class="relative overflow-hidden border-2 border-neon-cyan rounded-lg mb-3 aspect-square bg-zinc-900">
+                                <img src="${p.images[0]}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                <button class="wish-btn absolute top-3 right-3 bg-black text-neon-cyan w-10 h-10 rounded-full border-2 border-neon-cyan hover:bg-neon-cyan hover:text-black transition" data-id="${p.id}">
+                                    <i class="${saved ? 'fas' : 'far'} fa-heart"></i>
+                                </button>
+                            </div>
+                            <p class="text-neon-cyan text-xs mb-1">${p.brand}</p>
+                            <h4 class="font-semibold mb-1">${p.title}</h4>
+                            <p class="text-neon-pink font-bold">$${p.price}</p>
+                        </div>
+                    `);
+                });
+            }
+            renderProducts();
+
+            // Product Modal
+            $(document).on('click', '.prod-item', function(e) {
+                if($(e.target).closest('.wish-btn').length) return;
+                
+                const id = $(this).data('id');
+                const p = products.find(x => x.id === id);
+                
+                $('#pm-brand').text(p.brand);
+                $('#pm-title').text(p.title);
+                $('#pm-price').text(`$${p.price}`);
+                $('#pm-desc').text(p.desc);
+                $('#pm-wishlist').data('id', id);
+                
+                const saved = wishlist.includes(id);
+                $('#pm-wishlist').html(`<i class="${saved ? 'fas' : 'far'} fa-heart mr-2"></i> ${saved ? 'REMOVE FROM' : 'ADD TO'} WISHLIST`);
+                
+                modalImages = p.images;
+                modalIndex = 0;
+                updateModalImg();
+                
+                $('#product-modal').removeClass('hidden');
+                $('body').addClass('overflow-hidden');
+            });
+
+            function updateModalImg() {
+                $('#pm-main-img').attr('src', modalImages[modalIndex]);
+                $('#pm-thumbs').empty();
+                modalImages.forEach((img, i) => {
+                    $('#pm-thumbs').append(`
+                        <img src="${img}" class="w-20 h-20 object-cover rounded cursor-pointer border-2 ${i === modalIndex ? 'border-neon-pink' : 'border-zinc-700'} hover:border-neon-cyan transition pm-thumb" data-idx="${i}">
+                    `);
+                });
+            }
+
+            $(document).on('click', '.pm-thumb', function() {
+                modalIndex = $(this).data('idx');
+                updateModalImg();
+            });
+
+            $('#pm-close, #pm-backdrop').click(() => {
+                $('#product-modal').addClass('hidden');
+                $('body').removeClass('overflow-hidden');
+            });
+
+            // Wishlist
+            function updateWishlist() {
+                $('#wish-count').text(wishlist.length).toggleClass('hidden', wishlist.length === 0);
+                $('#ws-items').empty();
+                
+                if(wishlist.length === 0) {
+                    $('#ws-items').html('<p class="text-gray-500 text-center mt-10">No items saved</p>');
+                    return;
+                }
+                
+                wishlist.forEach(id => {
+                    const p = products.find(x => x.id === id);
+                    if(p) {
+                        $('#ws-items').append(`
+                            <div class="flex gap-4 mb-4 pb-4 border-b border-zinc-800">
+                                <img src="${p.images[0]}" class="w-20 h-20 object-cover rounded border-2 border-neon-pink">
+                                <div class="flex-1">
+                                    <p class="text-xs text-neon-cyan">${p.brand}</p>
+                                    <p class="font-semibold">${p.title}</p>
+                                    <p class="text-neon-pink font-bold">$${p.price}</p>
+                                </div>
+                                <button class="text-gray-500 hover:text-red-500 wish-remove" data-id="${p.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        `);
+                    }
+                });
+            }
+
+            $(document).on('click', '.wish-btn', function(e) {
+                e.stopPropagation();
+                const id = $(this).data('id');
+                const idx = wishlist.indexOf(id);
+                if(idx > -1) wishlist.splice(idx, 1);
+                else wishlist.push(id);
+                localStorage.setItem('wishlist_neon', JSON.stringify(wishlist));
+                updateWishlist();
+                renderProducts();
+            });
+
+            $(document).on('click', '.wish-remove', function() {
+                const id = $(this).data('id');
+                wishlist = wishlist.filter(x => x !== id);
+                localStorage.setItem('wishlist_neon', JSON.stringify(wishlist));
+                updateWishlist();
+                renderProducts();
+            });
+
+            $('#pm-wishlist').click(function() {
+                const id = $(this).data('id');
+                const idx = wishlist.indexOf(id);
+                if(idx > -1) wishlist.splice(idx, 1);
+                else wishlist.push(id);
+                localStorage.setItem('wishlist_neon', JSON.stringify(wishlist));
+                updateWishlist();
+                renderProducts();
+                const saved = wishlist.includes(id);
+                $(this).html(`<i class="${saved ? 'fas' : 'far'} fa-heart mr-2"></i> ${saved ? 'REMOVE FROM' : 'ADD TO'} WISHLIST`);
+            });
+
+            $('#wishlist-toggle').click(() => {
+                $('#wishlist-sidebar').removeClass('hidden');
+                setTimeout(() => $('#ws-panel').removeClass('translate-x-full'), 10);
+                $('body').addClass('overflow-hidden');
+            });
+
+            $('#ws-close, #ws-backdrop').click(() => {
+                $('#ws-panel').addClass('translate-x-full');
+                setTimeout(() => {
+                    $('#wishlist-sidebar').addClass('hidden');
+                    $('body').removeClass('overflow-hidden');
+                }, 300);
+            });
+
+            // Search
+            $('#search-toggle').click(() => {
+                $('#search-modal').removeClass('hidden');
+                $('#search-field').focus();
+                $('body').addClass('overflow-hidden');
+            });
+
+            $('#close-search').click(() => {
+                $('#search-modal').addClass('hidden');
+                $('#search-field').val('');
+                $('#search-grid').empty();
+                $('body').removeClass('overflow-hidden');
+            });
+
+            $('#search-field').on('input', function() {
+                const query = $(this).val().toLowerCase();
+                $('#search-grid').empty();
+                
+                if(query.length < 2) return;
+                
+                const filtered = products.filter(p => 
+                    p.title.toLowerCase().includes(query) || 
+                    p.brand.toLowerCase().includes(query)
+                );
+                
+                filtered.forEach(p => {
+                    $('#search-grid').append(`
+                        <div class="cursor-pointer prod-item" data-id="${p.id}">
+                            <img src="${p.images[0]}" class="w-full h-48 object-cover rounded border-2 border-neon-cyan mb-2">
+                            <p class="text-xs text-neon-cyan">${p.brand}</p>
+                            <p class="font-semibold">${p.title}</p>
+                            <p class="text-neon-pink font-bold">$${p.price}</p>
+                        </div>
+                    `);
+                });
+                
+                if(filtered.length === 0) {
+                    $('#search-grid').html('<p class="text-gray-500 text-center col-span-4">No results</p>');
+                }
+            });
+
+            updateWishlist();
+        });
+    </script>
+</body>
+</html>
