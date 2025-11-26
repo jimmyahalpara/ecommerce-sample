@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS | Modern Commerce</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Archivo', 'sans-serif'],
+                    },
+                    colors: {
+                        nexus: {
+                            black: '#0f0f0f',
+                            gray: '#f4f4f5',
+                            accent: '#2563eb', // Royal Blue tech accent
+                        }
+                    },
+                    spacing: {
+                        '128': '32rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Smooth Scroll */
+        html { scroll-behavior: smooth; }
+        
+        /* Hide scrollbar */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Product Card Hover Transition */
+        .product-card .actions { transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .product-card:hover .actions { transform: translateY(0); }
+    </style>
+</head>
+<body class="bg-white text-nexus-black font-sans antialiased selection:bg-nexus-black selection:text-white pb-20">
+
+    <!-- Promo Bar -->
+    <div class="bg-nexus-black text-white text-[10px] font-bold uppercase tracking-widest text-center py-2">
+        Free Worldwide Shipping on Orders Over $200
+    </div>
+
+    <!-- Sticky Navigation -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+        <div class="max-w-[1800px] mx-auto px-6 h-16 flex justify-between items-center">
+            
+            <!-- Mobile Menu -->
+            <button id="mobile-menu-trigger" class="md:hidden p-2 -ml-2">
+                <i class="fas fa-bars text-lg"></i>
+            </button>
+
+            <!-- Logo -->
+            <div class="flex items-center gap-1 cursor-pointer" onclick="window.scrollTo(0,0)">
+                <div class="w-5 h-5 bg-nexus-black rounded-sm"></div>
+                <span class="font-display font-bold text-xl tracking-tight">NEXUS.</span>
+            </div>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#" class="hover:text-gray-500 transition">New Arrivals</a>
+                <a href="#" class="hover:text-gray-500 transition">Clothing</a>
+                <a href="#" class="hover:text-gray-500 transition">Footwear</a>
+                <a href="#" class="text-red-600 hover:text-red-700 transition">Sale</a>
+            </nav>
+
+            <!-- Utility Icons -->
+            <div class="flex items-center space-x-4 md:space-x-6">
+                <button id="nav-search" class="hover:opacity-60 transition"><i class="fas fa-search text-lg"></i></button>
+                <button class="hidden md:block hover:opacity-60 transition"><i class="far fa-user text-lg"></i></button>
+                <button id="nav-wishlist" class="relative hover:opacity-60 transition">
+                    <i class="far fa-heart text-lg"></i>
+                    <span id="wishlist-badge" class="absolute -top-1 -right-1 w-2 h-2 bg-nexus-black rounded-full hidden"></span>
+                </button>
+                <button id="nav-cart" class="relative hover:opacity-60 transition">
+                    <i class="fas fa-shopping-bag text-lg"></i>
+                    <span class="absolute -top-1.5 -right-1.5 bg-nexus-black text-white text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="relative h-[500px] md:h-[600px] w-full bg-gray-100 overflow-hidden flex items-center">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" class="w-full h-full object-cover opacity-90 object-top">
+        </div>
+        <div class="relative z-10 max-w-[1800px] mx-auto px-6 w-full pointer-events-none">
+            <div class="max-w-xl pointer-events-auto">
+                <span class="bg-white text-nexus-black px-2 py-1 text-xs font-bold uppercase tracking-wider mb-4 inline-block">Season 04</span>
+                <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-sm">Urban <br>Utility.</h1>
+                <button onclick="document.getElementById('shop-anchor').scrollIntoView({behavior: 'smooth'})" class="bg-white text-nexus-black px-8 py-4 font-bold text-sm uppercase tracking-wide hover:bg-nexus-black hover:text-white transition-colors duration-300">
+                    Shop Collection
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Shop Area -->
+    <div id="shop-anchor" class="bg-white pt-10">
+        
+        <!-- Filter Toolbar -->
+        <div class="sticky top-16 z-40 bg-white/95 backdrop-blur border-b border-gray-200 py-3 mb-8">
+            <div class="max-w-[1800px] mx-auto px-6 flex justify-between items-center">
+                <div class="flex items-center gap-4 text-sm font-medium">
+                    <button class="flex items-center gap-2 hover:text-gray-500 transition">
+                        <i class="fas fa-sliders-h"></i> Filter
+                    </button>
+                    <div class="h-4 w-px bg-gray-300"></div>
+                    <span class="text-gray-500"><span id="product-count">0</span> Results</span>
+                </div>
+                
+                <div class="flex items-center gap-4 text-sm font-medium">
+                    <span class="hidden md:inline text-gray-400">Sort by:</span>
+                    <select class="bg-transparent border-none focus:ring-0 text-sm font-bold cursor-pointer">
+                        <option>Featured</option>
+                        <option>Newest</option>
+                        <option>Price: Low to High</option>
+                        <option>Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <section class="max-w-[1800px] mx-auto px-6 pb-24">
+            <!-- 
+                Using a strict Grid layout (cols-2 on mobile, cols-4 on desktop) 
+                creates that recognizable "Shop" rhythm.
+            -->
+            <div id="product-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 md:gap-x-8 md:gap-y-12">
+                <!-- Products Injected JS -->
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-nexus-black text-white py-16 px-6">
+        <div class="max-w-[1800px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 text-sm">
+            <div class="col-span-1 md:col-span-2">
+                <div class="flex items-center gap-2 mb-6">
+                    <div class="w-4 h-4 bg-white rounded-sm"></div>
+                    <span class="font-display font-bold text-lg tracking-tight">NEXUS.</span>
+                </div>
+                <p class="text-gray-400 max-w-sm">
+                    Engineered for modern life. We combine technical fabrics with contemporary silhouettes to create a new standard of utility.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-bold uppercase tracking-widest mb-6">Support</h4>
+                <ul class="space-y-3 text-gray-400">
+                    <li><a href="#" class="hover:text-white transition">Order Status</a></li>
+                    <li><a href="#" class="hover:text-white transition">Shipping & Returns</a></li>
+                    <li><a href="#" class="hover:text-white transition">Size Guide</a></li>
+                    <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold uppercase tracking-widest mb-6">Social</h4>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 bg-gray-800 flex items-center justify-center rounded-full hover:bg-white hover:text-nexus-black transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-10 h-10 bg-gray-800 flex items-center justify-center rounded-full hover:bg-white hover:text-nexus-black transition"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="w-10 h-10 bg-gray-800 flex items-center justify-center rounded-full hover:bg-white hover:text-nexus-black transition"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-[1800px] mx-auto mt-16 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between text-xs text-gray-500">
+            <p>&copy; 2024 Nexus Store Inc.</p>
+            <div class="flex gap-4 mt-4 md:mt-0">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Search Overlay -->
+    <div id="search-modal" class="fixed inset-0 z-[60] bg-white hidden flex flex-col pt-24 items-center opacity-0 transition-opacity duration-300">
+        <button id="close-search" class="absolute top-6 right-6 w-10 h-10 hover:bg-gray-100 rounded-full flex items-center justify-center transition">
+            <i class="fas fa-times text-xl"></i>
+        </button>
+        <div class="w-full max-w-2xl px-6">
+            <input type="text" id="search-input" placeholder="Search products..." class="w-full text-4xl font-display font-bold border-b-2 border-gray-200 pb-4 focus:outline-none focus:border-nexus-black placeholder-gray-300">
+            <div class="mt-8">
+                <p class="text-xs font-bold uppercase text-gray-400 mb-4">Trending Now</p>
+                <div class="flex flex-wrap gap-2">
+                    <button class="px-4 py-2 bg-gray-100 rounded-full text-sm hover:bg-gray-200">Cargo Pants</button>
+                    <button class="px-4 py-2 bg-gray-100 rounded-full text-sm hover:bg-gray-200">Tech Hoodie</button>
+                    <button class="px-4 py-2 bg-gray-100 rounded-full text-sm hover:bg-gray-200">Accessories</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Drawer (Right Side) -->
+    <div id="product-drawer" class="fixed inset-0 z-[70] hidden">
+        <div id="drawer-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+        <div id="drawer-panel" class="absolute inset-y-0 right-0 w-full md:w-[480px] bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-[0.16,1,0.3,1] flex flex-col h-full">
+            
+            <div class="flex justify-between items-center p-4 border-b border-gray-100">
+                <h3 class="font-bold">Product Details</h3>
+                <button id="close-drawer" class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded-full transition"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto p-6 no-scrollbar">
+                <!-- Gallery -->
+                <div class="relative h-96 bg-gray-100 mb-6 rounded-sm overflow-hidden group">
+                    <img id="drawer-img" src="" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button id="drawer-prev" class="w-8 h-8 bg-white/80 rounded-full hover:bg-white flex items-center justify-center shadow-sm"><i class="fas fa-chevron-left"></i></button>
+                        <button id="drawer-next" class="w-8 h-8 bg-white/80 rounded-full hover:bg-white flex items-center justify-center shadow-sm"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="mb-6">
+                    <p id="drawer-brand" class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Brand</p>
+                    <h2 id="drawer-title" class="font-display text-2xl font-bold mb-2">Title</h2>
+                    <p id="drawer-price" class="text-xl font-medium">$0.00</p>
+                </div>
+
+                <div class="mb-8">
+                    <p id="drawer-desc" class="text-gray-600 text-sm leading-relaxed">Desc</p>
+                </div>
+
+                <!-- Selectors -->
+                <div class="mb-8">
+                    <div class="flex justify-between mb-2">
+                        <span class="text-sm font-bold">Select Size</span>
+                        <a href="#" class="text-xs underline text-gray-500">Size Guide</a>
+                    </div>
+                    <div class="grid grid-cols-4 gap-2">
+                        <button class="border border-gray-200 py-3 text-sm hover:border-nexus-black transition focus:ring-1 ring-nexus-black">S</button>
+                        <button class="border border-gray-200 py-3 text-sm hover:border-nexus-black transition focus:ring-1 ring-nexus-black">M</button>
+                        <button class="border border-gray-200 py-3 text-sm hover:border-nexus-black transition focus:ring-1 ring-nexus-black">L</button>
+                        <button class="border border-gray-200 py-3 text-sm hover:border-nexus-black transition focus:ring-1 ring-nexus-black">XL</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Action -->
+            <div class="p-4 border-t border-gray-100 bg-white">
+                <button class="w-full bg-nexus-black text-white py-4 font-bold text-sm uppercase tracking-wide hover:bg-gray-800 transition mb-2">
+                    Add to Cart
+                </button>
+                <button id="drawer-wishlist-btn" class="w-full border border-gray-200 text-nexus-black py-4 font-bold text-sm uppercase tracking-wide hover:bg-gray-50 transition">
+                    Add to Wishlist
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Sidebar -->
+    <div id="wishlist-sidebar" class="fixed inset-0 z-[70] hidden">
+        <div id="wishlist-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+        <div id="wishlist-panel" class="absolute inset-y-0 right-0 w-full md:w-96 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-out flex flex-col h-full">
+            <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+                <h3 class="font-bold">Your Wishlist</h3>
+                <button id="close-wishlist" class="hover:text-gray-500"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="wishlist-items" class="flex-1 overflow-y-auto p-4 space-y-4">
+                <!-- Items -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-[60] hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" id="close-mobile-menu-bg"></div>
+        <div id="mobile-menu-panel" class="absolute inset-y-0 left-0 w-64 bg-white transform -translate-x-full transition-transform duration-300 ease-out p-6 flex flex-col">
+            <div class="flex justify-between items-center mb-8">
+                <span class="font-display font-bold text-xl">NEXUS.</span>
+                <button id="close-mobile-menu"><i class="fas fa-times"></i></button>
+            </div>
+            <nav class="flex flex-col space-y-4 text-lg font-medium">
+                <a href="#">New Arrivals</a>
+                <a href="#">Clothing</a>
+                <a href="#">Footwear</a>
+                <a href="#" class="text-red-600">Sale</a>
+            </nav>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            
+            // --- Data ---
+            const products = [
+                { id: 1, brand: "Nexus Lab", title: "Tech Utility Jacket", price: 245.00, images: ["https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80", "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80"], desc: "Water-resistant shell with magnetic closures." },
+                { id: 2, brand: "Core", title: "Heavyweight Tee", price: 45.00, images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80", "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&q=80"], desc: "400gsm cotton jersey. Boxy fit." },
+                { id: 3, brand: "Nexus Lab", title: "Cargo Pant V2", price: 120.00, images: ["https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80", "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&q=80"], desc: "Articulated knees and deep storage pockets." },
+                { id: 4, brand: "Core", title: "Linen Shirt", price: 85.00, images: ["https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&q=80", "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=800&q=80"], desc: "Summer essential. Breathable weave." },
+                { id: 5, brand: "Footwear", title: "Trainer 01", price: 180.00, images: ["https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&q=80", "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80"], desc: "Responsive foam sole. Knit upper." },
+                { id: 6, brand: "Accessories", title: "Commuter Pack", price: 110.00, images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80", "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80"], desc: "Laptop sleeve and waterproof zippers." },
+                { id: 7, brand: "Nexus Lab", title: "Shell Parka", price: 320.00, images: ["https://images.unsplash.com/photo-1551488852-0801464ade73?w=800&q=80", "https://images.unsplash.com/photo-1551488852-0801464ade73?w=800&q=80"], desc: "Full coverage storm protection." },
+                { id: 8, brand: "Core", title: "Relaxed Short", price: 60.00, images: ["https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=800&q=80", "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=800&q=80"], desc: "Elastic waist. Quick dry fabric." }
+            ];
+
+            // --- Wishlist Logic ---
+            let wishlist = JSON.parse(localStorage.getItem('wishlist_nexus')) || [];
+
+            function updateWishlistUI() {
+                $('#wishlist-badge').toggleClass('hidden', wishlist.length === 0);
+                $('#product-count').text(products.length);
+                
+                const $container = $('#wishlist-items');
+                $container.empty();
+
+                if(wishlist.length === 0) {
+                    $container.html('<div class="text-center text-gray-400 py-10">Your wishlist is empty.</div>');
+                    return;
+                }
+
+                wishlist.forEach(id => {
+                    const p = products.find(x => x.id === id);
+                    if(!p) return;
+                    $container.append(`
+                        <div class="flex gap-4 p-2 border-b border-gray-100 last:border-0">
+                            <img src="${p.images[0]}" class="w-16 h-20 object-cover rounded-sm bg-gray-100">
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-sm truncate">${p.title}</h4>
+                                <p class="text-xs text-gray-500 mb-1">${p.brand}</p>
+                                <p class="text-sm font-medium">$${p.price}</p>
+                            </div>
+                            <button onclick="window.removeWishlist(${p.id})" class="text-gray-400 hover:text-red-500"><i class="fas fa-times"></i></button>
+                        </div>
+                    `);
+                });
+            }
+
+            function toggleWishlist(id) {
+                const index = wishlist.indexOf(id);
+                if(index === -1) wishlist.push(id);
+                else wishlist.splice(index, 1);
+                
+                localStorage.setItem('wishlist_nexus', JSON.stringify(wishlist));
+                updateWishlistUI();
+                renderProducts(); // Update grid icons
+                
+                // Update Drawer if open
+                const $drawerBtn = $('#drawer-wishlist-btn');
+                if($drawerBtn.length) {
+                     const openId = $('#drawer-wishlist-btn').data('id');
+                     if(openId === id) updateDrawerBtn(wishlist.includes(id));
+                }
+            }
+
+            window.removeWishlist = function(id) { toggleWishlist(id); };
+
+            // --- Render Product Grid ---
+            function renderProducts(data = products) {
+                const $grid = $('#product-grid');
+                $grid.empty();
+                
+                if(data.length === 0) {
+                    $grid.html('<div class="col-span-full text-center py-20 text-gray-400">No products found.</div>');
+                    return;
+                }
+
+                data.forEach(p => {
+                    const isSaved = wishlist.includes(p.id);
+                    const heartClass = isSaved ? 'fas fa-heart text-red-500' : 'far fa-heart text-gray-600 hover:text-black';
+                    
+                    $grid.append(`
+                        <div class="product-card group cursor-pointer" data-id="${p.id}">
+                            <div class="relative overflow-hidden mb-3 bg-gray-100 aspect-[3/4]">
+                                <img src="${p.images[0]}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                                
+                                <!-- Wishlist Button (Top Right) -->
+                                <button class="absolute top-2 right-2 p-2 bg-white rounded-full shadow-sm hover:scale-110 transition z-20 wishlist-trigger" data-id="${p.id}">
+                                    <i class="${heartClass}"></i>
+                                </button>
+                                
+                                <!-- Quick Actions Overlay -->
+                                <div class="actions absolute inset-x-0 bottom-0 bg-white/95 backdrop-blur-sm p-3 z-10 flex flex-col gap-2">
+                                    <div class="flex justify-center gap-2 text-xs font-bold uppercase tracking-wide">
+                                        <button class="hover:text-nexus-accent">S</button>
+                                        <button class="hover:text-nexus-accent">M</button>
+                                        <button class="hover:text-nexus-accent">L</button>
+                                        <button class="hover:text-nexus-accent">XL</button>
+                                    </div>
+                                    <button class="w-full bg-nexus-black text-white py-2 text-xs font-bold uppercase tracking-wide hover:bg-gray-800 transition quick-add-btn">
+                                        Add to Cart - $${p.price}
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Card Info -->
+                            <div>
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="text-xs text-gray-500 font-bold uppercase mb-1">${p.brand}</p>
+                                        <h3 class="font-bold text-sm leading-tight group-hover:underline decoration-1 underline-offset-2">${p.title}</h3>
+                                    </div>
+                                    <span class="text-sm font-medium">$${p.price}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+            }
+            renderProducts();
+
+            // --- Drawer Logic ---
+            let currentImages = [];
+            let imgIdx = 0;
+
+            function updateDrawerBtn(isSaved) {
+                const $btn = $('#drawer-wishlist-btn');
+                if(isSaved) {
+                    $btn.html('Saved to Wishlist').addClass('bg-gray-100').removeClass('bg-white');
+                } else {
+                    $btn.html('Add to Wishlist').removeClass('bg-gray-100').addClass('bg-white');
+                }
+            }
+
+            function updateDrawerImage() {
+                $('#drawer-img').attr('src', currentImages[imgIdx]);
+            }
+
+            function openDrawer(id) {
+                const p = products.find(x => x.id === id);
+                if(!p) return;
+
+                $('#drawer-brand').text(p.brand);
+                $('#drawer-title').text(p.title);
+                $('#drawer-price').text(`$${p.price.toFixed(2)}`);
+                $('#drawer-desc').text(p.desc);
+                $('#drawer-wishlist-btn').data('id', id);
+                
+                currentImages = p.images;
+                imgIdx = 0;
+                updateDrawerImage();
+                updateDrawerBtn(wishlist.includes(id));
+
+                $('#product-drawer').removeClass('hidden');
+                setTimeout(() => {
+                    $('#drawer-backdrop').removeClass('opacity-0');
+                    $('#drawer-panel').removeClass('translate-x-full');
+                }, 10);
+                $('body').addClass('overflow-hidden');
+            }
+
+            // Click Handlers
+            $(document).on('click', '.product-card', function(e) {
+                if($(e.target).closest('.wishlist-trigger, .quick-add-btn').length) return;
+                openDrawer($(this).data('id'));
+            });
+
+            // Quick Add (Simulator)
+            $(document).on('click', '.quick-add-btn', function(e) {
+                e.stopPropagation();
+                const btn = $(this);
+                const originalText = btn.text();
+                btn.text("Added!").addClass("bg-green-600");
+                
+                // Update cart badge
+                const $badge = $('#nav-cart span');
+                let count = parseInt($badge.text());
+                $badge.text(count + 1);
+
+                setTimeout(() => {
+                    btn.text(originalText).removeClass("bg-green-600");
+                }, 1500);
+            });
+
+            $('#close-drawer, #drawer-backdrop').click(function() {
+                $('#drawer-panel').addClass('translate-x-full');
+                $('#drawer-backdrop').addClass('opacity-0');
+                setTimeout(() => {
+                    $('#product-drawer').addClass('hidden');
+                    $('body').removeClass('overflow-hidden');
+                }, 300);
+            });
+
+            // Image Nav
+            $('#drawer-next').click(function() { imgIdx = (imgIdx + 1) % currentImages.length; updateDrawerImage(); });
+            $('#drawer-prev').click(function() { imgIdx = (imgIdx - 1 + currentImages.length) % currentImages.length; updateDrawerImage(); });
+            
+            // Wishlist Buttons
+            $(document).on('click', '.wishlist-trigger', function(e) { e.stopPropagation(); toggleWishlist($(this).data('id')); });
+            $('#drawer-wishlist-btn').click(function() { toggleWishlist($(this).data('id')); });
+            
+            // Search Overlay
+            $('#nav-search').click(() => {
+                $('#search-modal').removeClass('hidden');
+                setTimeout(() => {
+                    $('#search-modal').removeClass('opacity-0');
+                    $('#search-input').focus();
+                }, 10);
+            });
+            $('#close-search').click(() => {
+                $('#search-modal').addClass('opacity-0');
+                setTimeout(() => $('#search-modal').addClass('hidden'), 300);
+            });
+            $('#search-input').on('input', function() {
+                const val = $(this).val().toLowerCase();
+                if(!val) renderProducts(products);
+                else renderProducts(products.filter(p => p.title.toLowerCase().includes(val) || p.brand.toLowerCase().includes(val)));
+            });
+
+            // Sidebars
+            $('#nav-wishlist').click(() => {
+                $('#wishlist-sidebar').removeClass('hidden');
+                setTimeout(() => {
+                    $('#wishlist-backdrop').removeClass('opacity-0');
+                    $('#wishlist-panel').removeClass('translate-x-full');
+                }, 10);
+            });
+            $('#close-wishlist, #wishlist-backdrop').click(() => {
+                $('#wishlist-panel').addClass('translate-x-full');
+                $('#wishlist-backdrop').addClass('opacity-0');
+                setTimeout(() => $('#wishlist-sidebar').addClass('hidden'), 300);
+            });
+
+            // Mobile Menu
+            $('#mobile-menu-trigger').click(() => {
+                $('#mobile-menu').removeClass('hidden');
+                setTimeout(() => $('#mobile-menu-panel').removeClass('-translate-x-full'), 10);
+            });
+            $('#close-mobile-menu, #close-mobile-menu-bg').click(() => {
+                $('#mobile-menu-panel').addClass('-translate-x-full');
+                setTimeout(() => $('#mobile-menu').addClass('hidden'), 300);
+            });
+
+            // Init
+            updateWishlistUI();
+        });
+    </script>
+</body>
+</html>

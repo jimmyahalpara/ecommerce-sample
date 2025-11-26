@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEALTH | Tech-Wear Apparel</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        stealth: {
+                            bg: '#09090b', // Deep zinc/black
+                            border: '#27272a', // Zinc 800
+                            text: '#f4f4f5', // Zinc 100
+                            neon: '#39ff14', // Neon Green
+                        }
+                    },
+                    borderWidth: {
+                        '1': '1px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Raw Scrollbar (Dark) */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #09090b; border-left: 1px solid #27272a; }
+        ::-webkit-scrollbar-thumb { background: #27272a; }
+        ::-webkit-scrollbar-thumb:hover { background: #39ff14; }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Marquee Animation */
+        .marquee-container { overflow: hidden; white-space: nowrap; }
+        .marquee-content { display: inline-block; animation: marquee 20s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    </style>
+</head>
+<body class="bg-stealth-bg text-stealth-text font-sans antialiased border-x border-stealth-border min-h-screen flex flex-col max-w-[1920px] mx-auto relative selection:bg-stealth-neon selection:text-black">
+
+    <!-- Marquee Top Bar -->
+    <div class="h-10 bg-stealth-neon text-black flex items-center overflow-hidden border-b border-stealth-border font-mono text-xs uppercase tracking-widest">
+        <div class="marquee-container w-full">
+            <div class="marquee-content">
+                Global Shipping /// "STEALTH" Collection Drop 001 /// Engineered for the Night /// Limited Edition Tech-Wear /// Global Shipping /// "STEALTH" Collection Drop 001 ///
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="h-20 border-b border-stealth-border flex bg-stealth-bg sticky top-0 z-50">
+        <!-- Logo Area -->
+        <div class="w-full md:w-72 flex-shrink-0 border-r border-stealth-border flex items-center justify-between px-6 bg-stealth-bg z-20">
+            <div class="text-2xl font-bold tracking-tighter uppercase cursor-pointer" onclick="window.scrollTo(0,0)">
+                STEALTH<span class="text-stealth-neon">.</span>
+            </div>
+            <button id="mobile-menu-trigger" class="md:hidden text-2xl hover:text-stealth-neon transition">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Desktop Search / Actions -->
+        <div class="hidden md:flex flex-1 justify-between items-center px-8 bg-stealth-bg">
+            <div class="flex-1 max-w-md relative">
+                <i class="fas fa-search absolute left-0 top-1/2 -translate-y-1/2 text-zinc-500"></i>
+                <input type="text" id="nav-search-input" placeholder="Search catalog..." class="w-full pl-8 pr-4 py-2 bg-transparent focus:outline-none font-mono text-sm placeholder-zinc-500 text-stealth-text">
+            </div>
+            
+            <div class="flex items-center space-x-8 font-mono text-sm font-medium">
+                <button class="hover:text-stealth-neon hover:underline decoration-2 underline-offset-4">Account</button>
+                <button id="nav-wishlist" class="hover:text-stealth-neon flex items-center gap-2">
+                    Wishlist <span id="wishlist-count" class="bg-stealth-neon text-black text-[10px] px-1.5 rounded-sm font-bold">0</span>
+                </button>
+                <button id="nav-cart" class="hover:text-stealth-neon flex items-center gap-2">
+                    Cart (0)
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout: Sidebar + Content -->
+    <div class="flex flex-col md:flex-row flex-1 relative">
+        
+        <!-- Sticky Sidebar (Desktop) -->
+        <aside class="hidden md:block w-72 border-r border-stealth-border bg-stealth-bg sticky top-20 h-[calc(100vh-7.5rem)] overflow-y-auto no-scrollbar">
+            <div class="p-6 border-b border-stealth-border">
+                <h3 class="font-bold uppercase tracking-widest text-xs text-zinc-500 mb-4">Categories</h3>
+                <ul class="space-y-3 text-lg font-medium">
+                    <li><a href="#" class="hover:text-stealth-neon hover:pl-2 transition-all block">New Arrivals</a></li>
+                    <li><a href="#" class="hover:text-stealth-neon hover:pl-2 transition-all block">Outerwear</a></li>
+                    <li><a href="#" class="hover:text-stealth-neon hover:pl-2 transition-all block">Tops</a></li>
+                    <li><a href="#" class="hover:text-stealth-neon hover:pl-2 transition-all block">Bottoms</a></li>
+                    <li><a href="#" class="hover:text-stealth-neon hover:pl-2 transition-all block">Accessories</a></li>
+                    <li><a href="#" class="text-stealth-neon hover:pl-2 transition-all block">Archive Sale</a></li>
+                </ul>
+            </div>
+            
+            <div class="p-6 border-b border-stealth-border">
+                <h3 class="font-bold uppercase tracking-widest text-xs text-zinc-500 mb-4">Filter</h3>
+                <div class="space-y-4">
+                    <div>
+                        <span class="block text-sm mb-2 font-medium">Size</span>
+                        <div class="flex flex-wrap gap-2 font-mono text-xs">
+                            <button class="w-8 h-8 border border-zinc-700 hover:border-stealth-neon hover:bg-stealth-neon hover:text-black transition">S</button>
+                            <button class="w-8 h-8 border border-zinc-700 hover:border-stealth-neon hover:bg-stealth-neon hover:text-black transition">M</button>
+                            <button class="w-8 h-8 border border-zinc-700 hover:border-stealth-neon hover:bg-stealth-neon hover:text-black transition">L</button>
+                            <button class="w-8 h-8 border border-zinc-700 hover:border-stealth-neon hover:bg-stealth-neon hover:text-black transition">XL</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 mt-auto">
+                <div class="border border-stealth-border p-4 text-center bg-zinc-900/50">
+                    <p class="font-mono text-xs mb-2 text-stealth-neon">JOIN THE NETWORK</p>
+                    <p class="text-xs text-zinc-500 mb-3">Unlock 10% off your first order.</p>
+                    <button class="w-full bg-stealth-neon text-black py-2 text-xs font-bold uppercase hover:bg-white transition">Subscribe</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="flex-1 bg-stealth-bg">
+            
+            <!-- Hero Banner (Inside Content) -->
+            <section class="h-[500px] border-b border-stealth-border relative group overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" class="w-full h-full object-cover grayscale brightness-75 group-hover:grayscale-0 transition-all duration-700">
+                <div class="absolute inset-0 bg-black/40"></div>
+                <div class="absolute bottom-0 left-0 p-8 md:p-12 bg-stealth-bg border-t border-r border-stealth-border max-w-lg">
+                    <span class="font-mono text-xs text-stealth-neon mb-2 block">DROP 001 // NIGHT OPS</span>
+                    <h2 class="text-4xl md:text-5xl font-bold uppercase leading-none mb-4">Tactical<br>Adaption</h2>
+                    <button onclick="document.getElementById('grid-anchor').scrollIntoView({behavior: 'smooth'})" class="text-sm font-bold border-b-2 border-stealth-neon pb-1 hover:text-stealth-neon transition">View Collection</button>
+                </div>
+            </section>
+
+            <!-- Toolbar -->
+            <div id="grid-anchor" class="h-12 border-b border-stealth-border flex justify-between items-center px-6 sticky top-20 bg-stealth-bg/95 backdrop-blur z-30">
+                <span class="font-mono text-xs uppercase text-zinc-500"><span id="item-count">0</span> Items Loaded</span>
+                <div class="flex items-center space-x-4">
+                    <span class="font-mono text-xs uppercase text-zinc-500">Sort:</span>
+                    <select class="bg-transparent text-sm font-bold focus:outline-none cursor-pointer text-stealth-text">
+                        <option class="bg-stealth-bg">Latest</option>
+                        <option class="bg-stealth-bg">Price: Low</option>
+                        <option class="bg-stealth-bg">Price: High</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-b border-stealth-border">
+                <!-- Products JS -->
+            </div>
+
+            <!-- Footer (Inside Content) -->
+            <footer class="bg-zinc-900 py-16 px-8 md:px-12 border-t border-stealth-border">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                    <div>
+                        <h4 class="font-bold uppercase mb-4 tracking-wider">STEALTH.</h4>
+                        <p class="text-sm text-zinc-500 leading-relaxed">Engineered for the urban environment. Technical apparel designed for utility and adaptation in the modern world.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-mono text-xs font-bold uppercase mb-4 text-zinc-600">Help</h4>
+                        <ul class="space-y-2 text-sm text-zinc-400">
+                            <li><a href="#" class="hover:text-stealth-neon transition">Shipping</a></li>
+                            <li><a href="#" class="hover:text-stealth-neon transition">Returns</a></li>
+                            <li><a href="#" class="hover:text-stealth-neon transition">FAQ</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-mono text-xs font-bold uppercase mb-4 text-zinc-600">Legal</h4>
+                        <ul class="space-y-2 text-sm text-zinc-400">
+                            <li><a href="#" class="hover:text-stealth-neon transition">Privacy</a></li>
+                            <li><a href="#" class="hover:text-stealth-neon transition">Terms</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-mono text-xs font-bold uppercase mb-4 text-zinc-600">Connect</h4>
+                        <div class="flex space-x-4 text-lg text-zinc-400">
+                            <a href="#" class="hover:text-stealth-neon transition"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="hover:text-stealth-neon transition"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12 pt-8 border-t border-zinc-800 text-center font-mono text-xs text-zinc-600">
+                    © 2024 STEALTH CORP. ALL RIGHTS RESERVED.
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 hidden bg-stealth-bg flex flex-col text-stealth-text">
+        <div class="h-20 flex justify-between items-center px-6 border-b border-stealth-border">
+            <span class="text-2xl font-bold">MENU</span>
+            <button id="close-mobile-menu" class="text-2xl hover:text-stealth-neon transition"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="flex-1 overflow-y-auto p-6 flex flex-col space-y-6 text-2xl font-bold uppercase">
+            <a href="#" class="border-b border-zinc-800 pb-4 hover:text-stealth-neon transition">New Arrivals</a>
+            <a href="#" class="border-b border-zinc-800 pb-4 hover:text-stealth-neon transition">Outerwear</a>
+            <a href="#" class="border-b border-zinc-800 pb-4 hover:text-stealth-neon transition">Tops</a>
+            <a href="#" class="border-b border-zinc-800 pb-4 hover:text-stealth-neon transition">Bottoms</a>
+            <a href="#" class="border-b border-zinc-800 pb-4 text-stealth-neon">Archive Sale</a>
+        </div>
+    </div>
+
+    <!-- Product Drawer (Right Slide) -->
+    <div id="product-drawer" class="fixed inset-0 z-[60] hidden text-stealth-text">
+        <div id="drawer-backdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+        <div id="drawer-panel" class="absolute inset-y-0 right-0 w-full md:w-[600px] bg-stealth-bg border-l border-stealth-border transform translate-x-full transition-transform duration-300 ease-[0.23,1,0.32,1] flex flex-col h-full">
+            
+            <!-- Header -->
+            <div class="h-16 flex justify-between items-center px-6 border-b border-stealth-border bg-stealth-bg z-10">
+                <div class="font-mono text-xs uppercase flex items-center">
+                    <span class="w-2 h-2 bg-stealth-neon rounded-full inline-block mr-2 animate-pulse"></span> In Stock
+                </div>
+                <button id="close-drawer" class="w-8 h-8 flex items-center justify-center border border-zinc-700 hover:border-stealth-neon hover:bg-stealth-neon hover:text-black transition"><i class="fas fa-times"></i></button>
+            </div>
+
+            <!-- Scrollable Content -->
+            <div class="flex-1 overflow-y-auto no-scrollbar">
+                <!-- Image Gallery -->
+                <div class="h-[500px] relative group border-b border-stealth-border bg-zinc-900">
+                    <img id="drawer-img" src="" class="w-full h-full object-cover filter grayscale-[30%]">
+                    <div class="absolute bottom-4 right-4 flex space-x-2">
+                        <button id="drawer-prev" class="w-10 h-10 bg-stealth-bg border border-stealth-border flex items-center justify-center hover:border-stealth-neon hover:text-stealth-neon transition"><i class="fas fa-arrow-left"></i></button>
+                        <button id="drawer-next" class="w-10 h-10 bg-stealth-bg border border-stealth-border flex items-center justify-center hover:border-stealth-neon hover:text-stealth-neon transition"><i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Details -->
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <p id="drawer-brand" class="font-mono text-xs text-stealth-neon mb-2">BRAND_ID</p>
+                            <h2 id="drawer-title" class="text-3xl font-bold uppercase leading-none">Product Name</h2>
+                        </div>
+                        <p id="drawer-price" class="font-mono text-xl text-stealth-neon">$0.00</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-8 mb-8 border-y border-zinc-800 py-6">
+                        <div>
+                            <h4 class="font-bold text-sm mb-2">Description</h4>
+                            <p id="drawer-desc" class="text-sm text-zinc-400 leading-relaxed">Desc goes here.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm mb-2">Details</h4>
+                            <ul class="text-sm text-zinc-400 list-disc list-inside space-y-1">
+                                <li>Technical fabric</li>
+                                <li>Water-resistant</li>
+                                <li>Modular design</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <h4 class="font-bold text-sm mb-3">Select Size</h4>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button class="py-3 border border-zinc-700 text-sm font-mono hover:border-stealth-neon hover:bg-stealth-neon hover:text-black transition">S</button>
+                            <button class="py-3 border border-zinc-700 text-sm font-mono hover:border-stealth-neon hover:bg-stealth-neon hover:text-black transition">M</button>
+                            <button class="py-3 border border-zinc-700 text-sm font-mono hover:border-stealth-neon hover:bg-stealth-neon hover:text-black transition">L</button>
+                            <button class="py-3 border border-zinc-700 text-sm font-mono hover:border-stealth-neon hover:bg-stealth-neon hover:text-black transition">XL</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Actions -->
+            <div class="p-6 border-t border-stealth-border bg-zinc-900/50 flex gap-4">
+                <button id="drawer-wishlist-btn" class="w-14 h-14 border border-stealth-border flex items-center justify-center text-xl hover:border-stealth-neon hover:text-stealth-neon transition">
+                    <i class="far fa-heart"></i>
+                </button>
+                <button class="flex-1 bg-stealth-neon text-black font-bold uppercase tracking-wider hover:bg-white transition">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            
+            // --- Data (Updated for Tech theme) ---
+            const products = [
+                { id: 1, brand: "STEALTH_OPS", title: "Modular Shell Jacket", price: 245.00, images: ["https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&q=80", "https://images.unsplash.com/photo-1544816155-12df9643f363?w=800&q=80"], desc: "3-layer waterproof shell. Magnetic closures. Detachable hood." },
+                { id: 2, brand: "UNIT_01", title: "Cargo Tech Pant", price: 185.00, images: ["https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80", "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&q=80"], desc: "Articulated knees. Multiple secure pockets. Adjustable cuffs." },
+                { id: 3, brand: "STEALTH_OPS", title: "Grid Fleece Hoodie", price: 120.00, images: ["https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800&q=80", "https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?w=800&q=80"], desc: "Thermal regulation grid fleece. Reinforced shoulders." },
+                { id: 4, brand: "BASICS", title: "Tech Tee V2", price: 65.00, images: ["https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80", "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&q=80"], desc: "Moisture-wicking synthetic blend. Anti-odor treatment." },
+                { id: 5, brand: "FOOTWEAR", title: "Trainer 01", price: 210.00, images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80", "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&q=80"], desc: "High-traction rubber sole. Breathable knit upper. Quick-lace system." },
+                { id: 6, brand: "GEAR", title: "Utility Belt", price: 60.00, images: ["https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=800&q=80", "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80"], desc: "Heavy-duty nylon webbing. Fidlock magnetic buckle." },
+                { id: 7, brand: "UNIT_01", title: "Insulated Vest", price: 155.00, images: ["https://images.unsplash.com/photo-1551488852-0801464ade73?w=800&q=80", "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&q=80"], desc: "Lightweight synthetic insulation. Packable design." },
+                { id: 8, brand: "STEALTH_OPS", title: "Performance Pant", price: 135.00, images: ["https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&q=80", "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&q=80"], desc: "Four-way stretch fabric. Laser-cut ventilation." },
+                { id: 9, brand: "GEAR", title: "Commuter Pack", price: 145.00, images: ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80", "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&q=80"], desc: "Waterproof construction. Laptop sleeve. MOLLE compatible." }
+            ];
+
+            // --- State ---
+            let wishlist = JSON.parse(localStorage.getItem('wishlist_stealth')) || [];
+
+            // --- Render Grid ---
+            function renderProducts(data = products) {
+                $('#item-count').text(data.length);
+                const $grid = $('#product-grid');
+                $grid.empty();
+
+                if(data.length === 0) {
+                    $grid.html('<div class="col-span-full py-32 text-center border-r border-stealth-border text-zinc-500">No results.</div>');
+                    return;
+                }
+
+                data.forEach(p => {
+                    const isSaved = wishlist.includes(p.id);
+                    const heartIcon = isSaved ? 'fas fa-heart text-stealth-neon' : 'far fa-heart';
+                    
+                    $grid.append(`
+                        <div class="group border-r border-b border-stealth-border bg-stealth-bg relative hover:z-10 product-card cursor-pointer" data-id="${p.id}">
+                            <div class="aspect-[4/5] relative overflow-hidden bg-zinc-900">
+                                <img src="${p.images[0]}" class="w-full h-full object-cover filter grayscale-[50%] brightness-90 group-hover:grayscale-0 group-hover:brightness-100 transition duration-500">
+                                
+                                <!-- Hover Info Overlay -->
+                                <div class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-center items-center p-6 text-center">
+                                    <button class="bg-stealth-neon text-black w-full py-3 text-sm font-bold uppercase hover:bg-white transition mb-3 quick-view-btn">Quick View</button>
+                                    <div class="flex gap-2 text-xs font-mono text-stealth-neon">
+                                        <span class="border border-stealth-neon px-2 py-1">S</span>
+                                        <span class="border border-stealth-neon px-2 py-1">M</span>
+                                        <span class="border border-stealth-neon px-2 py-1">L</span>
+                                        <span class="border border-stealth-neon px-2 py-1">XL</span>
+                                    </div>
+                                </div>
+
+                                <button class="absolute top-3 right-3 z-20 w-8 h-8 flex items-center justify-center bg-stealth-bg border border-stealth-border hover:border-stealth-neon hover:text-stealth-neon transition wishlist-trigger" data-id="${p.id}">
+                                    <i class="${heartIcon}"></i>
+                                </button>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-mono text-[10px] uppercase text-stealth-neon mb-1">${p.brand}</p>
+                                        <h3 class="font-bold text-lg leading-tight">${p.title}</h3>
+                                    </div>
+                                    <p class="font-mono text-sm text-stealth-neon">$${p.price}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+            }
+            renderProducts();
+
+            // --- Wishlist Logic ---
+            function toggleWishlist(id) {
+                const idx = wishlist.indexOf(id);
+                if(idx === -1) wishlist.push(id);
+                else wishlist.splice(idx, 1);
+                localStorage.setItem('wishlist_stealth', JSON.stringify(wishlist));
+                $('#wishlist-count').text(wishlist.length);
+                renderProducts(); 
+                
+                const $drawerBtn = $('#drawer-wishlist-btn');
+                if($drawerBtn.length) {
+                    const openId = $('#drawer-wishlist-btn').data('id');
+                    if(openId === id) updateDrawerBtn(wishlist.includes(id));
+                }
+            }
+
+            // --- Drawer Logic ---
+            let currentImages = [];
+            let currentImgIdx = 0;
+
+            function updateDrawerImage() {
+                $('#drawer-img').attr('src', currentImages[currentImgIdx]);
+            }
+
+            function updateDrawerBtn(isSaved) {
+                const $btn = $('#drawer-wishlist-btn');
+                $btn.data('id'); 
+                if(isSaved) {
+                    $btn.html('<i class="fas fa-heart"></i>').addClass('border-stealth-neon text-stealth-neon');
+                } else {
+                    $btn.html('<i class="far fa-heart"></i>').removeClass('border-stealth-neon text-stealth-neon');
+                }
+            }
+
+            function openDrawer(id) {
+                const p = products.find(x => x.id === id);
+                if(!p) return;
+
+                $('#drawer-brand').text(p.brand);
+                $('#drawer-title').text(p.title);
+                $('#drawer-price').text(`$${p.price.toFixed(2)}`);
+                $('#drawer-desc').text(p.desc);
+                $('#drawer-wishlist-btn').data('id', id);
+                
+                currentImages = p.images;
+                currentImgIdx = 0;
+                updateDrawerImage();
+                updateDrawerBtn(wishlist.includes(id));
+
+                $('#product-drawer').removeClass('hidden');
+                setTimeout(() => {
+                    $('#drawer-backdrop').removeClass('opacity-0');
+                    $('#drawer-panel').removeClass('translate-x-full');
+                }, 10);
+                $('body').addClass('overflow-hidden');
+            }
+
+            // Event Listeners
+            $(document).on('click', '.product-card', function(e) {
+                if($(e.target).closest('.wishlist-trigger').length) return;
+                openDrawer($(this).data('id'));
+            });
+
+            $(document).on('click', '.quick-view-btn', function(e) {
+                e.stopPropagation();
+                openDrawer($(this).closest('.product-card').data('id'));
+            });
+
+            $(document).on('click', '.wishlist-trigger', function(e) {
+                e.stopPropagation();
+                toggleWishlist($(this).data('id'));
+            });
+
+            $('#drawer-wishlist-btn').click(function() {
+                toggleWishlist($(this).data('id'));
+            });
+
+            $('#close-drawer, #drawer-backdrop').click(function() {
+                $('#drawer-panel').addClass('translate-x-full');
+                $('#drawer-backdrop').addClass('opacity-0');
+                setTimeout(() => {
+                    $('#product-drawer').addClass('hidden');
+                    $('body').removeClass('overflow-hidden');
+                }, 300);
+            });
+
+            $('#drawer-next').click(function() { currentImgIdx = (currentImgIdx + 1) % currentImages.length; updateDrawerImage(); });
+            $('#drawer-prev').click(function() { currentImgIdx = (currentImgIdx - 1 + currentImages.length) % currentImages.length; updateDrawerImage(); });
+
+            // Search
+            $('#nav-search-input').on('input', function() {
+                const val = $(this).val().toLowerCase();
+                if(!val) renderProducts(products);
+                else renderProducts(products.filter(p => p.title.toLowerCase().includes(val) || p.brand.toLowerCase().includes(val)));
+            });
+
+            // Mobile Menu
+            $('#mobile-menu-trigger').click(() => {
+                $('#mobile-menu').removeClass('hidden');
+                $('body').addClass('overflow-hidden');
+            });
+            $('#close-mobile-menu').click(() => {
+                $('#mobile-menu').addClass('hidden');
+                $('body').removeClass('overflow-hidden');
+            });
+
+            // Init
+            $('#wishlist-count').text(wishlist.length);
+        });
+    </script>
+</body>
+</html>
