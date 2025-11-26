@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOIR | Exclusive Fashion</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Lato', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        noir: {
+                            900: '#0a0a0a', // Deep black
+                            800: '#171717', // Dark gray
+                            700: '#262626',
+                            100: '#e5e5e5', // Off-white text
+                        },
+                        gold: {
+                            400: '#d4af37',
+                            500: '#c5a028',
+                        }
+                    },
+                    letterSpacing: {
+                        widest: '.25em',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar - Dark Theme */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #171717; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #404040; 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d4af37; 
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Drawer Transitions */
+        .drawer-enter {
+            transform: translateX(100%);
+        }
+        .drawer-enter-active {
+            transform: translateX(0);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .drawer-exit {
+            transform: translateX(0);
+        }
+        .drawer-exit-active {
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fade-text {
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-noir-900 text-noir-100 font-sans antialiased selection:bg-gold-400 selection:text-black">
+
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 bg-noir-900/90 backdrop-blur-md border-b border-white/5 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-center h-20">
+                <!-- Hamburger (Visual Only) -->
+                <button class="text-white hover:text-gold-400 transition hidden md:block">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+
+                <!-- Logo -->
+                <div class="flex-shrink-0 cursor-pointer text-center" onclick="window.scrollTo(0,0)">
+                    <span class="font-serif text-3xl font-bold tracking-widest text-white">NOIR</span>
+                </div>
+
+                <!-- Right Actions -->
+                <div class="flex items-center space-x-8">
+                    <button class="text-white hover:text-gold-400 transition text-sm font-light tracking-widest hidden md:block">SEARCH</button>
+                    <button id="nav-wishlist-btn" class="text-white hover:text-gold-400 transition relative group">
+                        <span class="text-sm font-light tracking-widest mr-2 hidden md:inline">WISHLIST</span>
+                        <i class="far fa-heart text-lg"></i>
+                        <span id="wishlist-indicator" class="hidden absolute -top-1 -right-1 w-2 h-2 bg-gold-400 rounded-full animate-pulse"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section (Full Screen) -->
+    <section class="relative h-screen w-full overflow-hidden">
+        <div id="hero-slider" class="absolute inset-0 w-full h-full">
+            <!-- Slides injected via JS for cleaner loop -->
+        </div>
+        
+        <!-- Hero Content Overlay -->
+        <div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-center px-4 z-10 pointer-events-none">
+            <p class="text-gold-400 tracking-[0.3em] uppercase text-sm mb-4 fade-text">Spring / Summer 2024</p>
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl text-white mb-8 fade-text" style="animation-delay: 0.2s">Elegance Redefined</h1>
+            <div class="pointer-events-auto fade-text" style="animation-delay: 0.4s">
+                <button onclick="document.getElementById('catalog').scrollIntoView({behavior: 'smooth'})" class="border border-white/30 text-white px-10 py-4 hover:bg-white hover:text-black transition duration-300 uppercase tracking-widest text-xs">
+                    View Collection
+                </button>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce z-10">
+            <i class="fas fa-chevron-down text-white/50"></i>
+        </div>
+    </section>
+
+    <!-- Catalog Section -->
+    <section id="catalog" class="max-w-7xl mx-auto px-6 py-24">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-white/10 pb-6">
+            <div>
+                <h2 class="text-3xl font-serif text-white italic">The Collection</h2>
+            </div>
+            <div class="mt-4 md:mt-0 text-white/40 text-sm font-light">
+                <span id="item-count">0</span> ITEMS
+            </div>
+        </div>
+
+        <!-- Product Grid (Masonry feel) -->
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+            <!-- Products injected -->
+        </div>
+    </section>
+
+    <!-- Brand Statement -->
+    <section class="bg-noir-800 py-24 border-t border-white/5">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <i class="fas fa-quote-left text-gold-400 text-3xl mb-8"></i>
+            <h3 class="font-serif text-3xl md:text-5xl leading-tight text-white/90 mb-8">
+                "Fashion is not something that exists in dresses only. Fashion is in the sky, in the street, fashion has to do with ideas, the way we live, what is happening."
+            </h3>
+            <p class="font-sans text-white/40 tracking-widest uppercase text-sm">— Coco Chanel</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-noir-900 pt-20 pb-10 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col items-center justify-center">
+                <span class="font-serif text-4xl font-bold tracking-widest text-white mb-8">NOIR</span>
+                <div class="flex space-x-8 mb-12">
+                    <a href="#" class="text-white/40 hover:text-gold-400 transition uppercase text-xs tracking-widest">Instagram</a>
+                    <a href="#" class="text-white/40 hover:text-gold-400 transition uppercase text-xs tracking-widest">Twitter</a>
+                    <a href="#" class="text-white/40 hover:text-gold-400 transition uppercase text-xs tracking-widest">Pinterest</a>
+                </div>
+                <p class="text-white/20 text-xs text-center font-light">
+                    &copy; 2024 NOIR INC. ALL RIGHTS RESERVED. <br>
+                    DESIGNED FOR THE BOLD.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Drawer (Right Side Slide-over) -->
+    <div id="product-drawer" class="fixed inset-0 z-[100] hidden pointer-events-none">
+        <!-- Backdrop -->
+        <div id="drawer-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-auto"></div>
+
+        <!-- Drawer Panel -->
+        <div id="drawer-panel" class="absolute inset-y-0 right-0 max-w-2xl w-full bg-noir-800 shadow-2xl transform translate-x-full transition-transform duration-500 ease-out pointer-events-auto flex flex-col h-full border-l border-white/10">
+            
+            <!-- Close Button -->
+            <button id="close-drawer" class="absolute top-6 right-6 z-20 text-white/50 hover:text-white transition">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+
+            <!-- Content Container -->
+            <div class="flex-1 overflow-y-auto overflow-x-hidden relative no-scrollbar">
+                
+                <!-- Main Image -->
+                <div class="h-[60vh] w-full relative group">
+                    <img id="drawer-img" src="" class="w-full h-full object-cover">
+                    <!-- Nav -->
+                    <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-4 opacity-0 group-hover:opacity-100 transition duration-300">
+                        <button id="drawer-prev" class="bg-black/50 hover:bg-black text-white p-3 rounded-full backdrop-blur-md"><i class="fas fa-chevron-left"></i></button>
+                        <button id="drawer-next" class="bg-black/50 hover:bg-black text-white p-3 rounded-full backdrop-blur-md"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    <!-- Thumbnails overlay bottom -->
+                    <div id="drawer-thumbs" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 p-2 bg-black/30 backdrop-blur-md rounded-full">
+                        <!-- Thumbs injected -->
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="p-8 md:p-12 bg-noir-800">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <p id="drawer-brand" class="text-gold-400 uppercase tracking-widest text-xs font-bold mb-2">Brand</p>
+                            <h2 id="drawer-title" class="font-serif text-3xl md:text-4xl text-white">Product Title</h2>
+                        </div>
+                        <div class="text-right">
+                            <p id="drawer-price" class="text-2xl font-light text-white">$00.00</p>
+                            <p id="drawer-old-price" class="text-sm text-white/40 line-through decoration-gold-400">$00.00</p>
+                        </div>
+                    </div>
+
+                    <p id="drawer-desc" class="text-white/60 font-light leading-relaxed mb-8 border-b border-white/5 pb-8">
+                        Description goes here.
+                    </p>
+
+                    <!-- Sizes -->
+                    <div class="mb-10">
+                        <p class="text-xs uppercase tracking-widest text-white/40 mb-4">Available Sizes</p>
+                        <div class="flex space-x-4 font-light text-white/60">
+                            <span>S</span>
+                            <span>M</span>
+                            <span>L</span>
+                            <span>XL</span>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <button id="drawer-wishlist-btn" class="w-full border border-white/20 py-4 hover:border-gold-400 hover:text-gold-400 text-white transition duration-300 uppercase tracking-widest text-sm flex items-center justify-center group">
+                        <i class="far fa-heart mr-3 group-hover:scale-110 transition-transform"></i> <span>Add to Wishlist</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Sidebar (Left Side for contrast) -->
+    <div id="wishlist-sidebar" class="fixed inset-0 z-[100] hidden pointer-events-none">
+        <div id="wishlist-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-auto"></div>
+        <div id="wishlist-panel" class="absolute inset-y-0 left-0 max-w-sm w-full bg-noir-900 border-r border-white/10 shadow-2xl transform -translate-x-full transition-transform duration-500 ease-out pointer-events-auto flex flex-col h-full">
+            
+            <div class="p-8 border-b border-white/5 flex justify-between items-center">
+                <h2 class="font-serif text-2xl text-white italic">Your Selection</h2>
+                <button id="close-wishlist" class="text-white/50 hover:text-white">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+
+            <div id="wishlist-items" class="flex-1 overflow-y-auto p-8 space-y-8">
+                <!-- Items -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // --- Data ---
+            const products = [
+                { id: 1, brand: "Fear of God", title: "Essential Tee", price: 45.00, oldPrice: 60.00, images: ["https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&q=80", "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&q=80"], desc: "Constructed from premium heavy-weight cotton. A staple for the modern wardrobe." },
+                { id: 2, brand: "Acne Studios", title: "Silk Wrap Dress", price: 320.00, oldPrice: 450.00, images: ["https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&q=80", "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=800&q=80"], desc: "Fluid silk blend fabric that drapes effortlessly across the silhouette." },
+                { id: 3, brand: "Saint Laurent", title: "Noir Denim Jacket", price: 890.00, oldPrice: 1100.00, images: ["https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?w=800&q=80", "https://images.unsplash.com/photo-1516257984-b1b4d8c9230c?w=800&q=80"], desc: "Japanese denim with a wax finish. The definition of rock-chic luxury." },
+                { id: 4, brand: "Rick Owens", title: "Tapered Trousers", price: 540.00, oldPrice: 680.00, images: ["https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&q=80", "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80"], desc: "Architectural cuts meet everyday comfort. Deep drop crotch silhouette." },
+                { id: 5, brand: "Off-White", title: "Industrial Hoodie", price: 410.00, oldPrice: 520.00, images: ["https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800&q=80", "https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?w=800&q=80"], desc: "Streetwear royalty. Heavy loopback jersey with signature diagonal prints." },
+                { id: 6, brand: "Balenciaga", title: "Speed Runners", price: 795.00, oldPrice: 850.00, images: ["https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=800&q=80", "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&q=80"], desc: "Sock-like knit upper for an ergonomic fit. Revolutionary sole technology." }
+            ];
+
+            // --- Hero Slider ---
+            const heroImages = [
+                "https://images.unsplash.com/photo-1469334031218-e382a71b716b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80",
+                "https://images.unsplash.com/photo-1509631179647-0177331693ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80"
+            ];
+            
+            heroImages.forEach((img, i) => {
+                $('#hero-slider').append(`
+                    <div class="slide absolute inset-0 transition-opacity duration-1000 ${i === 0 ? 'opacity-100' : 'opacity-0'}">
+                        <img src="${img}" class="w-full h-full object-cover opacity-60">
+                    </div>
+                `);
+            });
+
+            let currentSlide = 0;
+            setInterval(() => {
+                const $slides = $('.slide');
+                $($slides[currentSlide]).removeClass('opacity-100').addClass('opacity-0');
+                currentSlide = (currentSlide + 1) % $slides.length;
+                $($slides[currentSlide]).removeClass('opacity-0').addClass('opacity-100');
+            }, 6000);
+
+            // --- Wishlist System ---
+            let wishlist = JSON.parse(localStorage.getItem('wishlist_noir')) || [];
+
+            function saveWishlist() {
+                localStorage.setItem('wishlist_noir', JSON.stringify(wishlist));
+                updateWishlistUI();
+            }
+
+            function toggleWishlist(id) {
+                const index = wishlist.indexOf(id);
+                if (index === -1) wishlist.push(id);
+                else wishlist.splice(index, 1);
+                saveWishlist();
+                
+                // Update UI elements
+                $(`.wishlist-icon[data-id="${id}"]`).toggleClass('text-gold-400 fas').toggleClass('text-white/30 far');
+                
+                // Drawer button update
+                const $drawerBtn = $('#drawer-wishlist-btn');
+                if($drawerBtn.data('id') === id) {
+                    updateDrawerBtn(wishlist.includes(id));
+                }
+            }
+
+            function updateWishlistUI() {
+                $('#wishlist-indicator').toggleClass('hidden', wishlist.length === 0);
+                $('#nav-wishlist-btn').toggleClass('text-gold-400', wishlist.length > 0);
+                
+                const $container = $('#wishlist-items');
+                $container.empty();
+
+                if(wishlist.length === 0) {
+                    $container.html('<p class="text-white/30 font-light text-center mt-10">Your collection is empty.</p>');
+                    return;
+                }
+
+                wishlist.forEach(id => {
+                    const p = products.find(x => x.id === id);
+                    if(!p) return;
+                    $container.append(`
+                        <div class="flex gap-4">
+                            <img src="${p.images[0]}" class="w-20 h-24 object-cover opacity-80">
+                            <div class="flex-1">
+                                <p class="text-xs text-gold-400 uppercase tracking-widest mb-1">${p.brand}</p>
+                                <p class="text-white font-serif mb-2">${p.title}</p>
+                                <p class="text-white/60 font-light text-sm">$${p.price}</p>
+                            </div>
+                            <button onclick="window.removeWishlist(${p.id})" class="text-white/20 hover:text-red-500 transition"><i class="fas fa-times"></i></button>
+                        </div>
+                    `);
+                });
+            }
+            window.removeWishlist = function(id) {
+                const idx = wishlist.indexOf(id);
+                if(idx > -1) {
+                    wishlist.splice(idx, 1);
+                    saveWishlist();
+                    // Update icons on grid if visible
+                    $(`.wishlist-icon[data-id="${id}"]`).removeClass('text-gold-400 fas').addClass('text-white/30 far');
+                }
+            };
+
+            // --- Render Products ---
+            $('#item-count').text(products.length);
+            products.forEach(p => {
+                const isSaved = wishlist.includes(p.id);
+                const iconClass = isSaved ? 'fas text-gold-400' : 'far text-white/30';
+                
+                $('#product-grid').append(`
+                    <div class="group cursor-pointer product-card" data-id="${p.id}">
+                        <div class="relative overflow-hidden mb-6 aspect-[3/4]">
+                            <img src="${p.images[0]}" class="w-full h-full object-cover transition duration-700 group-hover:scale-105 group-hover:opacity-80">
+                            
+                            <!-- Minimal Overlay Button -->
+                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-500">
+                                <span class="text-white uppercase tracking-[0.2em] text-xs border border-white px-6 py-3 hover:bg-white hover:text-black transition">Quick View</span>
+                            </div>
+
+                            <!-- Top Right Wishlist Icon on Card -->
+                            <button class="absolute top-4 right-4 z-10 p-2 hover:scale-110 transition wishlist-trigger" data-id="${p.id}">
+                                <i class="${iconClass} fa-heart text-xl wishlist-icon" data-id="${p.id}"></i>
+                            </button>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs text-gold-400 uppercase tracking-widest font-bold mb-2">${p.brand}</p>
+                            <h3 class="text-white font-serif text-xl mb-1">${p.title}</h3>
+                            <p class="text-white/50 font-light">$${p.price}</p>
+                        </div>
+                    </div>
+                `);
+            });
+
+            // --- Drawer Logic ---
+            let currentImages = [];
+            let imgIdx = 0;
+
+            function updateDrawerBtn(isSaved) {
+                const $btn = $('#drawer-wishlist-btn');
+                if(isSaved) {
+                    $btn.html('<i class="fas fa-heart text-gold-400 mr-3"></i> <span>Saved to Wishlist</span>');
+                    $btn.addClass('border-gold-400 text-gold-400');
+                } else {
+                    $btn.html('<i class="far fa-heart mr-3 group-hover:scale-110 transition-transform"></i> <span>Add to Wishlist</span>');
+                    $btn.removeClass('border-gold-400 text-gold-400');
+                }
+            }
+
+            function updateDrawerImage() {
+                $('#drawer-img').attr('src', currentImages[imgIdx]);
+                $('.thumb-dot').removeClass('bg-white').addClass('bg-white/30');
+                $(`.thumb-dot[data-idx="${imgIdx}"]`).removeClass('bg-white/30').addClass('bg-white');
+            }
+
+            // Open Drawer
+            $(document).on('click', '.product-card', function(e) {
+                if($(e.target).closest('.wishlist-trigger').length) return; // Ignore heart clicks
+
+                const id = $(this).data('id');
+                const p = products.find(x => x.id === id);
+                if(!p) return;
+
+                // Populate
+                $('#drawer-brand').text(p.brand);
+                $('#drawer-title').text(p.title);
+                $('#drawer-price').text(`$${p.price.toFixed(2)}`);
+                $('#drawer-old-price').text(`$${p.oldPrice.toFixed(2)}`);
+                $('#drawer-desc').text(p.desc);
+                $('#drawer-wishlist-btn').data('id', id);
+                updateDrawerBtn(wishlist.includes(id));
+
+                // Images
+                currentImages = p.images;
+                imgIdx = 0;
+                
+                // Thumbs
+                $('#drawer-thumbs').empty();
+                currentImages.forEach((_, i) => {
+                    $('#drawer-thumbs').append(`<div class="thumb-dot w-2 h-2 rounded-full cursor-pointer transition ${i===0?'bg-white':'bg-white/30'}" data-idx="${i}"></div>`);
+                });
+                
+                updateDrawerImage();
+
+                // Show
+                $('#product-drawer').removeClass('hidden');
+                setTimeout(() => {
+                    $('#drawer-backdrop').removeClass('opacity-0');
+                    $('#drawer-panel').removeClass('translate-x-full');
+                }, 10);
+                $('body').addClass('overflow-hidden');
+            });
+
+            // Close Drawer
+            function closeDrawer() {
+                $('#drawer-panel').addClass('translate-x-full');
+                $('#drawer-backdrop').addClass('opacity-0');
+                setTimeout(() => {
+                    $('#product-drawer').addClass('hidden');
+                    $('body').removeClass('overflow-hidden');
+                }, 500);
+            }
+            $('#close-drawer, #drawer-backdrop').click(closeDrawer);
+
+            // Drawer Image Nav
+            $('#drawer-next').click(() => { imgIdx = (imgIdx + 1) % currentImages.length; updateDrawerImage(); });
+            $('#drawer-prev').click(() => { imgIdx = (imgIdx - 1 + currentImages.length) % currentImages.length; updateDrawerImage(); });
+            $(document).on('click', '.thumb-dot', function() { imgIdx = $(this).data('idx'); updateDrawerImage(); });
+
+            // Wishlist Toggle (Grid)
+            $(document).on('click', '.wishlist-trigger', function(e) {
+                e.stopPropagation();
+                toggleWishlist($(this).data('id'));
+            });
+
+            // Wishlist Toggle (Drawer)
+            $('#drawer-wishlist-btn').click(function() {
+                toggleWishlist($(this).data('id'));
+            });
+
+            // Wishlist Sidebar
+            $('#nav-wishlist-btn').click(() => {
+                $('#wishlist-sidebar').removeClass('hidden');
+                setTimeout(() => {
+                    $('#wishlist-backdrop').removeClass('opacity-0');
+                    $('#wishlist-panel').removeClass('-translate-x-full');
+                }, 10);
+            });
+            
+            function closeWishlistSidebar() {
+                $('#wishlist-panel').addClass('-translate-x-full');
+                $('#wishlist-backdrop').addClass('opacity-0');
+                setTimeout(() => {
+                    $('#wishlist-sidebar').addClass('hidden');
+                }, 500);
+            }
+            $('#close-wishlist, #wishlist-backdrop').click(closeWishlistSidebar);
+
+            // Init
+            updateWishlistUI();
+        });
+    </script>
+</body>
+</html>

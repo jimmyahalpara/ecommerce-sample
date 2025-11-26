@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMIÈRE | Modern Fashion</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        // Removed Serif to maintain consistency
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fdf4f6',
+                            100: '#fbe8ed',
+                            500: '#e11d48', // Pink/Red accent
+                            600: '#be123c',
+                            900: '#881337',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        /* Hide scrollbar for horizontal swipe areas but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slider-image {
+            transition: transform 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <span class="text-2xl font-bold text-gray-900 tracking-tight uppercase">Lumière</span>
+                </div>
+
+                <!-- Icons -->
+                <div class="flex items-center space-x-6">
+                    <!-- Wishlist Trigger -->
+                    <button id="nav-wishlist-btn" class="text-gray-600 hover:text-brand-500 transition relative group">
+                        <i class="far fa-heart text-xl"></i>
+                        <span id="wishlist-indicator" class="hidden absolute -top-1 -right-1 w-2 h-2 bg-brand-500 rounded-full"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Slider -->
+    <section class="relative h-[500px] w-full overflow-hidden bg-gray-100 group">
+        <div id="hero-slider" class="h-full w-full flex transition-transform duration-700 ease-in-out">
+            <!-- Slide 1 -->
+            <div class="min-w-full h-full relative">
+                <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" class="w-full h-full object-cover" alt="Fashion 1">
+                <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                    <div class="text-center text-white px-4 fade-in">
+                        <h2 class="text-4xl md:text-6xl font-bold mb-4">Summer Collection</h2>
+                        <p class="text-lg md:text-xl mb-8 font-light">Up to 50% off on new arrivals</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 2 -->
+            <div class="min-w-full h-full relative">
+                <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" class="w-full h-full object-cover" alt="Fashion 2">
+                <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                    <div class="text-center text-white px-4">
+                        <h2 class="text-4xl md:text-6xl font-bold mb-4">Urban Street Style</h2>
+                        <p class="text-lg md:text-xl mb-8 font-light">Redefine your wardrobe today</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slider Controls -->
+        <button id="prev-slide" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white p-3 rounded-full text-gray-800 opacity-0 group-hover:opacity-100 transition duration-300">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button id="next-slide" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/50 hover:bg-white p-3 rounded-full text-gray-800 opacity-0 group-hover:opacity-100 transition duration-300">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </section>
+
+    <!-- Product Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <h3 class="text-3xl font-bold text-gray-900">Trending Now</h3>
+                <p class="text-gray-500 mt-2">Handpicked essentials for you</p>
+            </div>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
+            <!-- Products will be injected here via jQuery -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8 mb-8">
+                <div class="text-center md:text-left">
+                    <span class="text-2xl font-bold tracking-tight uppercase">Lumière</span>
+                    <p class="mt-4 text-gray-400 text-sm max-w-xs">Premium fashion designed for the modern individual. Quality meets aesthetic.</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-instagram text-2xl"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter text-2xl"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook text-2xl"></i></a>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-sm text-gray-500">
+                &copy; 2023 Lumière Fashion. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Modal (Hidden by default) -->
+    <div id="product-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-gray-900 bg-opacity-75 transition-opacity backdrop-blur-sm" id="modal-backdrop"></div>
+
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                
+                <!-- Modal Panel -->
+                <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-4xl opacity-0 scale-95 duration-300" id="modal-panel">
+                    
+                    <button id="close-modal" class="absolute right-4 top-4 z-20 text-gray-400 hover:text-gray-600 focus:outline-none">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+
+                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start gap-8">
+                            
+                            <!-- Image Gallery Section -->
+                            <div class="w-full sm:w-1/2">
+                                <!-- Main Large Image -->
+                                <div class="aspect-w-3 aspect-h-4 rounded-lg overflow-hidden bg-gray-100 mb-4 relative group">
+                                    <img id="modal-main-image" src="" alt="Detail" class="object-cover w-full h-[400px] sm:h-[500px]">
+                                    <!-- Gallery Nav Arrows (Visible on hover) -->
+                                    <button id="gal-prev" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow hover:bg-white opacity-0 group-hover:opacity-100 transition"><i class="fas fa-chevron-left"></i></button>
+                                    <button id="gal-next" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow hover:bg-white opacity-0 group-hover:opacity-100 transition"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                                <!-- Thumbnails (Swipeable on mobile) -->
+                                <div id="modal-thumbnails" class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+                                    <!-- Thumbs injected via JS -->
+                                </div>
+                            </div>
+
+                            <!-- Product Info Section -->
+                            <div class="w-full sm:w-1/2 mt-4 sm:mt-0 flex flex-col h-full justify-between">
+                                <div>
+                                    <h5 id="modal-brand" class="text-sm font-bold text-gray-500 uppercase tracking-wide">Brand Name</h5>
+                                    <h3 id="modal-title" class="text-2xl font-bold text-gray-900 mt-1">Product Title</h3>
+                                    
+                                    <div class="flex items-baseline mt-4 mb-6">
+                                        <span id="modal-price" class="text-3xl font-bold text-gray-900">$0.00</span>
+                                        <span id="modal-old-price" class="ml-3 text-lg text-gray-500 line-through">$0.00</span>
+                                        <span id="modal-discount" class="ml-3 text-sm font-bold text-brand-500">20% OFF</span>
+                                    </div>
+
+                                    <p id="modal-desc" class="text-gray-600 text-sm leading-relaxed mb-6">
+                                        Description goes here.
+                                    </p>
+
+                                    <!-- Sizes (Visual Only) -->
+                                    <div class="mb-6">
+                                        <span class="block text-sm font-medium text-gray-700 mb-2">Available in Sizes</span>
+                                        <div class="flex space-x-3 cursor-default">
+                                            <!-- Removed hover effects and pointer cursor to indicate non-interactive but informational -->
+                                            <div class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-sm font-medium text-gray-600 bg-gray-50">S</div>
+                                            <div class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-sm font-medium text-gray-600 bg-gray-50">M</div>
+                                            <div class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-sm font-medium text-gray-600 bg-gray-50">L</div>
+                                            <div class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-sm font-medium text-gray-600 bg-gray-50">XL</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-auto">
+                                    <button id="modal-wishlist-btn" class="w-full bg-black border border-transparent py-4 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-gray-800 hover:text-white transition focus:outline-none shadow-lg">
+                                        <i class="far fa-heart mr-2"></i> Add to Wishlist
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Sidebar/Modal -->
+    <div id="wishlist-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="wishlist-title" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-gray-900 bg-opacity-75 transition-opacity backdrop-blur-sm" id="wishlist-backdrop"></div>
+        
+        <div class="fixed inset-y-0 right-0 z-10 w-full max-w-sm bg-white shadow-xl transform transition-transform translate-x-full duration-300" id="wishlist-panel">
+            <div class="h-full flex flex-col">
+                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-gray-900">Your Wishlist</h2>
+                    <button id="close-wishlist" class="text-gray-500 hover:text-gray-800">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div id="wishlist-items" class="flex-1 overflow-y-auto p-6 space-y-6">
+                    <!-- Wishlist items injected here -->
+                    <div class="text-center text-gray-500 mt-10">Your wishlist is empty.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        $(document).ready(function() {
+            
+            // --- Data: Products ---
+            const products = [
+                {
+                    id: 1,
+                    brand: "H&M",
+                    title: "Oversized Cotton T-shirt",
+                    price: 29.99,
+                    oldPrice: 39.99,
+                    discount: "25% OFF",
+                    desc: "Relaxed-fit t-shirt in heavy cotton jersey with a round, ribbed neckline and dropped shoulders. Clean, modern aesthetic perfect for everyday wear.",
+                    images: [
+                        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1562157873-818bc0726f68?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    ]
+                },
+                {
+                    id: 2,
+                    brand: "Zara",
+                    title: "Floral Summer Dress",
+                    price: 49.99,
+                    oldPrice: 69.99,
+                    discount: "30% OFF",
+                    desc: "Short dress with a V-neckline and long sleeves. Elastic waistband. Ruffled hem. Floral print throughout. Lightweight and breathable for summer days.",
+                    images: [
+                        "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    ]
+                },
+                {
+                    id: 3,
+                    brand: "Levi's",
+                    title: "Classic Denim Jacket",
+                    price: 89.99,
+                    oldPrice: 119.99,
+                    discount: "25% OFF",
+                    desc: "The original jean jacket since 1967. A blank canvas for self-expression. Versatile silhouette that fits just right. 100% Cotton non-stretch denim.",
+                    images: [
+                        "https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1578932750294-f5075e85f44a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    ]
+                },
+                {
+                    id: 4,
+                    brand: "Uniqlo",
+                    title: "Smart Ankle Pants",
+                    price: 39.99,
+                    oldPrice: 49.99,
+                    discount: "20% OFF",
+                    desc: "2-way stretch fabric for comfort in any position. Wrinkle-resistant for easy care. Tapered cut that looks sleek but feels relaxed.",
+                    images: [
+                        "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1542272454315-4c01d7abdf4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    ]
+                },
+                {
+                    id: 5,
+                    brand: "Nike",
+                    title: "Sportswear Hoodie",
+                    price: 59.99,
+                    oldPrice: 75.00,
+                    discount: "15% OFF",
+                    desc: "Classic comfort. The Nike Sportswear Hoodie sets you up with soft French terry fabric and a street-ready look. Everyday essential.",
+                    images: [
+                        "https://images.unsplash.com/photo-1556906781-9a412961c28c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1620799140408-ed5341cd2431?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1578768079052-aa76e52ff62e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    ]
+                },
+                {
+                    id: 6,
+                    brand: "Adidas",
+                    title: "Urban Running Shoes",
+                    price: 79.99,
+                    oldPrice: 99.99,
+                    discount: "20% OFF",
+                    desc: "Hit the ground running. These shoes have a breathable mesh upper to keep you cool. Cushioned midsole provides comfort with every step.",
+                    images: [
+                        "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1608231387042-66d1773070a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+                        "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    ]
+                }
+            ];
+
+            // --- Wishlist Logic (LocalStorage) ---
+            let wishlist = JSON.parse(localStorage.getItem('wishlist_v1')) || [];
+
+            function saveWishlist() {
+                localStorage.setItem('wishlist_v1', JSON.stringify(wishlist));
+                updateWishlistUI();
+            }
+
+            function toggleWishlist(id) {
+                const index = wishlist.indexOf(id);
+                if (index === -1) {
+                    wishlist.push(id);
+                } else {
+                    wishlist.splice(index, 1);
+                }
+                saveWishlist();
+                // If in modal, update text
+                const product = products.find(p => p.id === id);
+                if (product) {
+                    const btn = $('#modal-wishlist-btn');
+                    const isIn = wishlist.includes(id);
+                    updateModalButtonState(btn, isIn);
+                }
+                // Update grid icons
+                renderProducts(); 
+            }
+
+            function updateWishlistUI() {
+                // Nav Indicator
+                if (wishlist.length > 0) {
+                    $('#wishlist-indicator').removeClass('hidden');
+                } else {
+                    $('#wishlist-indicator').addClass('hidden');
+                }
+
+                // Render Wishlist Sidebar Content
+                const $container = $('#wishlist-items');
+                $container.empty();
+
+                if (wishlist.length === 0) {
+                    $container.html('<div class="text-center text-gray-400 mt-10">Your wishlist is empty.<br>Start adding styles you love!</div>');
+                    return;
+                }
+
+                wishlist.forEach(id => {
+                    const p = products.find(prod => prod.id === id);
+                    if (p) {
+                        const html = `
+                            <div class="flex gap-4 items-start">
+                                <div class="w-20 h-24 flex-shrink-0 bg-gray-100 rounded-md overflow-hidden">
+                                    <img src="${p.images[0]}" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-bold text-gray-900">${p.title}</h4>
+                                    <p class="text-xs text-gray-500 mb-1">${p.brand}</p>
+                                    <p class="text-sm font-semibold text-brand-500">$${p.price}</p>
+                                </div>
+                                <button onclick="window.removeWishlist(${p.id})" class="text-gray-400 hover:text-red-500 transition p-2">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        `;
+                        $container.append(html);
+                    }
+                });
+            }
+
+            // Expose removal to window for onclick
+            window.removeWishlist = function(id) {
+                const index = wishlist.indexOf(id);
+                if (index > -1) {
+                    wishlist.splice(index, 1);
+                    saveWishlist();
+                }
+            };
+
+
+            // --- Render Products ---
+            function renderProducts() {
+                const $grid = $('#product-grid');
+                $grid.empty(); // Clear first since we might re-render on wishlist toggle
+                
+                products.forEach(p => {
+                    const isWishlisted = wishlist.includes(p.id);
+                    const heartClass = isWishlisted ? 'fas fa-heart text-brand-500' : 'far fa-heart text-gray-900';
+                    const heartBg = isWishlisted ? 'bg-brand-50' : 'bg-white';
+
+                    const html = `
+                        <div class="group relative cursor-pointer product-card" data-id="${p.id}">
+                            <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none lg:h-96 relative">
+                                <img src="${p.images[0]}" alt="${p.title}" class="h-full w-full object-cover object-center lg:h-full lg:w-full transition-transform duration-700 group-hover:scale-105">
+                                
+                                <!-- Overlay Actions -->
+                                <div class="absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/50 to-transparent flex justify-center space-x-4 opacity-0 group-hover:opacity-100">
+                                    <button class="bg-white text-gray-900 p-3 rounded-full hover:bg-brand-500 hover:text-white transition shadow-lg quick-view-btn">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <!-- Wishlist Button in Grid -->
+                                    <button class="${heartBg} p-3 rounded-full hover:bg-brand-500 hover:text-white transition shadow-lg wishlist-btn-grid" data-id="${p.id}">
+                                        <i class="${heartClass}"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex justify-between">
+                                <div>
+                                    <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wide">${p.brand}</h3>
+                                    <h3 class="text-base text-gray-900 font-medium">
+                                        <span class="absolute inset-0"></span>
+                                        ${p.title}
+                                    </h3>
+                                </div>
+                                <p class="text-sm font-medium text-gray-900">$${p.price}</p>
+                            </div>
+                        </div>
+                    `;
+                    $grid.append(html);
+                });
+            }
+            renderProducts();
+            updateWishlistUI();
+
+            // --- Hero Slider Logic ---
+            let currentSlide = 0;
+            const $slider = $('#hero-slider');
+            const slideCount = $slider.children().length;
+
+            function moveSlider(index) {
+                if (index < 0) index = slideCount - 1;
+                if (index >= slideCount) index = 0;
+                $slider.css('transform', `translateX(-${index * 100}%)`);
+                currentSlide = index;
+            }
+
+            // Auto Play
+            let slideInterval = setInterval(() => moveSlider(currentSlide + 1), 5000);
+
+            $('#next-slide').click(() => {
+                clearInterval(slideInterval);
+                moveSlider(currentSlide + 1);
+                slideInterval = setInterval(() => moveSlider(currentSlide + 1), 5000);
+            });
+
+            $('#prev-slide').click(() => {
+                clearInterval(slideInterval);
+                moveSlider(currentSlide - 1);
+                slideInterval = setInterval(() => moveSlider(currentSlide + 1), 5000);
+            });
+
+
+            // --- Modal Logic ---
+            let currentModalImages = [];
+            let currentImageIndex = 0;
+
+            function updateModalButtonState($btn, isWishlisted) {
+                if (isWishlisted) {
+                    $btn.html('<i class="fas fa-heart mr-2 text-red-500"></i> Remove from Wishlist');
+                    $btn.addClass('bg-gray-100 text-gray-900').removeClass('bg-black text-white');
+                } else {
+                    $btn.html('<i class="far fa-heart mr-2"></i> Add to Wishlist');
+                    $btn.addClass('bg-black text-white').removeClass('bg-gray-100 text-gray-900');
+                }
+            }
+
+            // Open Modal
+            $(document).on('click', '.product-card', function(e) {
+                // Prevent opening if clicked on grid buttons
+                if ($(e.target).closest('.wishlist-btn-grid').length) return;
+
+                const id = $(this).data('id');
+                const product = products.find(p => p.id === id);
+                
+                if(!product) return;
+
+                // Populate Data
+                $('#modal-brand').text(product.brand);
+                $('#modal-title').text(product.title);
+                $('#modal-price').text(`$${product.price}`);
+                $('#modal-old-price').text(`$${product.oldPrice}`);
+                $('#modal-discount').text(product.discount);
+                $('#modal-desc').text(product.desc);
+                
+                // Wishlist Button State
+                const btn = $('#modal-wishlist-btn');
+                btn.data('id', id); // attach ID
+                updateModalButtonState(btn, wishlist.includes(id));
+
+                // Images Setup
+                currentModalImages = product.images;
+                currentImageIndex = 0;
+                updateModalImage();
+                renderThumbnails();
+
+                // Show Modal
+                $('#product-modal').removeClass('hidden');
+                setTimeout(() => {
+                    $('#modal-panel').removeClass('opacity-0 scale-95').addClass('opacity-100 scale-100');
+                }, 10);
+                $('body').addClass('overflow-hidden');
+            });
+
+            // Close Modal
+            function closeModal() {
+                $('#modal-panel').removeClass('opacity-100 scale-100').addClass('opacity-0 scale-95');
+                setTimeout(() => {
+                    $('#product-modal').addClass('hidden');
+                    $('body').removeClass('overflow-hidden');
+                }, 300);
+            }
+
+            $('#close-modal, #modal-backdrop').click(closeModal);
+
+            // Modal Gallery Logic
+            function updateModalImage() {
+                const url = currentModalImages[currentImageIndex];
+                $('#modal-main-image').attr('src', url);
+                // Highlight active thumbnail
+                $('.thumb-img').removeClass('ring-2 ring-brand-500 opacity-100').addClass('opacity-60');
+                $(`.thumb-img[data-index="${currentImageIndex}"]`).addClass('ring-2 ring-brand-500 opacity-100').removeClass('opacity-60');
+            }
+
+            function renderThumbnails() {
+                const $container = $('#modal-thumbnails');
+                $container.empty();
+                currentModalImages.forEach((url, idx) => {
+                    $container.append(`
+                        <img src="${url}" data-index="${idx}" class="thumb-img w-20 h-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition-opacity flex-shrink-0 border border-gray-200">
+                    `);
+                });
+            }
+
+            // Thumbnail Click
+            $(document).on('click', '.thumb-img', function() {
+                currentImageIndex = $(this).data('index');
+                updateModalImage();
+            });
+
+            // Arrows in Modal
+            $('#gal-next').click(function() {
+                currentImageIndex = (currentImageIndex + 1) % currentModalImages.length;
+                updateModalImage();
+            });
+            $('#gal-prev').click(function() {
+                currentImageIndex = (currentImageIndex - 1 + currentModalImages.length) % currentModalImages.length;
+                updateModalImage();
+            });
+
+
+            // --- Interactions ---
+
+            // Wishlist Button in Modal
+            $('#modal-wishlist-btn').click(function() {
+                const id = $(this).data('id');
+                toggleWishlist(id);
+            });
+
+            // Wishlist Button in Grid
+            $(document).on('click', '.wishlist-btn-grid', function(e) {
+                e.stopPropagation();
+                const id = $(this).data('id');
+                toggleWishlist(id);
+            });
+
+            // Open Wishlist Sidebar
+            $('#nav-wishlist-btn').click(function() {
+                $('#wishlist-modal').removeClass('hidden');
+                setTimeout(() => {
+                    $('#wishlist-panel').removeClass('translate-x-full');
+                }, 10);
+                $('body').addClass('overflow-hidden');
+            });
+
+            // Close Wishlist Sidebar
+            function closeWishlist() {
+                $('#wishlist-panel').addClass('translate-x-full');
+                setTimeout(() => {
+                    $('#wishlist-modal').addClass('hidden');
+                    $('body').removeClass('overflow-hidden');
+                }, 300);
+            }
+
+            $('#close-wishlist, #wishlist-backdrop').click(closeWishlist);
+
+        });
+    </script>
+</body>
+</html>
